@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace S10241539_PRG2Assignment
+{
+    public class Flavour
+    {
+        private string type;
+        private bool premium;
+        private int quantity;
+
+        public string Type { get; set; }
+        public bool Premium { get; set; }
+        public int Quantity { get; set; }
+
+        public Flavour() { }
+
+        public Flavour(string flavourType, bool isPremium, int icQuantity)
+        {
+            Type = flavourType;
+            Premium = isPremium;
+            Quantity = icQuantity;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"\tFlavour option: {Type}\tPremium flavour: {Premium}\tItem quantity: {Quantity}";
+        }
+    }
+}
