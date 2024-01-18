@@ -27,7 +27,10 @@ namespace S10241539_PRG2Assignment
 
         public void ModifyIceCream(int i) 
         {
-            
+            if (i <= IceCreamList.Count)
+            {
+
+            }
         }
         public void AddIceCream(IceCream iceCream)
         {
@@ -35,10 +38,7 @@ namespace S10241539_PRG2Assignment
         }
         public void DeleteIceCream(int id)
         {
-            if (IceCreamList.Count > 0)
-            {
-                IceCreamList.RemoveAt(id);
-            }
+            iceCreamList.Remove(iceCreamList[id]);
         }
          public double CalculateTotal()
         {

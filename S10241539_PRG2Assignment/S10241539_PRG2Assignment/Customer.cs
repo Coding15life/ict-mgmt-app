@@ -11,8 +11,6 @@ namespace S10241539_PRG2Assignment
         private string name;
         private int memberId;
         private DateTime dob;
-        private Order currentOrder;
-        private List<Order> orderHistory;
         private PointCard rewards;
 
         public string Name { get; set; }
@@ -35,7 +33,7 @@ namespace S10241539_PRG2Assignment
         }
         public bool IsBirthday()
         {
-            if (Dob == DateTime.Now) 
+            if (Dob == DateTime.Today) 
             { 
                 return true;
             }
