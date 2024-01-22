@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\S2 School Files\\PRG2\\Assignment Final\\Assgn repo\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj": {}
+    "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj": {}
   },
   "projects": {
-    "C:\\S2 School Files\\PRG2\\Assignment Final\\Assgn repo\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj": {
+    "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\S2 School Files\\PRG2\\Assignment Final\\Assgn repo\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
+        "projectUniqueName": "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
         "projectName": "S10241539_PRG2Assignment",
-        "projectPath": "C:\\S2 School Files\\PRG2\\Assignment Final\\Assgn repo\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
+        "projectPath": "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
         "packagesPath": "C:\\Users\\kesha\\.nuget\\packages\\",
-        "outputPath": "C:\\S2 School Files\\PRG2\\Assignment Final\\Assgn repo\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\obj\\",
+        "outputPath": "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kesha\\AppData\\Roaming\\NuGet\\NuGet.Config",
