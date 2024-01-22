@@ -13,19 +13,49 @@ namespace S10241539_PRG2Assignment
         private string tier;
 
         public int Points { get; set; }
-        public int PunchCards { get; set; }
+        public int PunchCard { get; set; }
         public string Tier { get; set; }
 
         public PointCard() { }
         public PointCard(int points,  int punchCard)
         {
             Points = points;
-            PunchCards = punchCard;
+            PunchCard = punchCard;
         }
         public void AddPoints(int p)
         {
             double earned_points = p * 0.72;
             points += p;
+            if (tier == "Gold")
+            {
+                tier = "Gold";
+            } else if (tier == "Silver")
+            {
+                if (points >= 100)
+                {
+                    Tier = "Gold";
+                }
+                else
+                {
+                    tier = "Silver";
+                }
+            } else
+            {
+                if (points >= 50)
+                {
+                    Tier = "Silver";
+                }
+                else if (points >= 100)
+                {
+                    Tier = "Gold";
+                }
+                else
+                {
+                    Tier = "Ordinary";
+                }
+            }
+
+            
         }
         public void RedeemPoints(int p)
         {
@@ -41,12 +71,16 @@ namespace S10241539_PRG2Assignment
         }
         public void Punch()
         {
-            PunchCards++;
-            if (PunchCards == 11)
+            PunchCard++;
+            if (PunchCard == 11)
             {
                 Console.WriteLine("Congratulations! You've earned a free ice cream.");
-                PunchCards = 0;
+                PunchCard = 0;
             }
+        }
+        public override string ToString()
+        {
+            return $"Points: {Points}\nPunch Card: {PunchCard}";
         }
     }
 }

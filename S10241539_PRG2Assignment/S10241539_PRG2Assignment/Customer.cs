@@ -44,7 +44,7 @@ namespace S10241539_PRG2Assignment
         }
         public override string ToString()
         {
-            return base.ToString();
+            return $"Name: {Name}\nMember ID: {MemberId}\nDate of Birth: {Dob.ToString("dd/MM/yyyy")}";
         }
     }
 }
