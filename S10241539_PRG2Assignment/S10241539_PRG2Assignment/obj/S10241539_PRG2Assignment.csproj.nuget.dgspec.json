@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj": {}
+    "D:\\Year 1\\Semester 2\\Programming II\\ICT Management App\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj": {
+    "D:\\Year 1\\Semester 2\\Programming II\\ICT Management App\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
+        "projectUniqueName": "D:\\Year 1\\Semester 2\\Programming II\\ICT Management App\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
         "projectName": "S10241539_PRG2Assignment",
-        "projectPath": "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
-        "packagesPath": "C:\\Users\\kesha\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kesha\\Source\\Repos\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\obj\\",
+        "projectPath": "D:\\Year 1\\Semester 2\\Programming II\\ICT Management App\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
+        "packagesPath": "C:\\Users\\javie\\.nuget\\packages\\",
+        "outputPath": "D:\\Year 1\\Semester 2\\Programming II\\ICT Management App\\ict-mgmt-app\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\kesha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\javie\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
