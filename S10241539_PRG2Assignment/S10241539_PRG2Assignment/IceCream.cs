@@ -10,8 +10,6 @@ namespace S10241539_PRG2Assignment
     {
         private string option;
         private int scoops;
-        private List<Flavour> flavours;
-        private List<Topping> toppings;
 
         public string Option { get; set; }
         public int Scoops { get; set; }

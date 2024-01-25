@@ -11,26 +11,34 @@ namespace S10241539_PRG2Assignment
         private int id;
         private DateTime timeReceived;
         private DateTime? timeFulfilled;
-        private List<IceCream> iceCreamList;
 
         public int Id { get; set; }
         public DateTime TimeReceived { get; set; }
         public DateTime? TimeFulfilled { get; set; }
-        List<IceCream> IceCreamList = new List<IceCream>();
+        public List<IceCream> IceCreamList = new List<IceCream>();
 
-        public Order() { }
+        public Order() 
+        {
+            IceCreamList = new List<IceCream>();
+        }
         public Order(int id, DateTime timeReceived)
         {
             Id = id;
             TimeReceived = timeReceived;
+            TimeFulfilled = DateTime.Now;
         }
 
         public void ModifyIceCream(int i) 
         {
-            if (i <= IceCreamList.Count)
+            if (i < IceCreamList.Count)
             {
-
+                Console.WriteLine("Which ice cream do you want to remove?");
+                for (int s = 0; s < IceCreamList.Count; s++)
+                {
+                    Console.Write($"[{s}] {IceCreamList[s].Scoops} Scoops");
+                }
             }
+            
         }
         public void AddIceCream(IceCream iceCream)
         {
@@ -38,7 +46,7 @@ namespace S10241539_PRG2Assignment
         }
         public void DeleteIceCream(int id)
         {
-            iceCreamList.Remove(iceCreamList[id]);
+            IceCreamList.Remove(IceCreamList[id]);
         }
          public double CalculateTotal()
         {

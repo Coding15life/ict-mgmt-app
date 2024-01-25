@@ -16,10 +16,13 @@ namespace S10241539_PRG2Assignment
         public string Name { get; set; }
         public int MemberId { get; set; }
         public DateTime Dob { get; set; }
-        List<Order> OrderHistory = new List<Order>();
+        public List<Order> OrderHistory = new List<Order>();
         public PointCard Rewards { get; set; }
 
-        public Customer() { }
+        public Customer() 
+        {
+            OrderHistory = new List<Order>();
+        }
         public Customer(string n, int m, DateTime d)
         {
             Name = n;
@@ -29,6 +32,7 @@ namespace S10241539_PRG2Assignment
         public Order MakeOrder()
         {
             Order ord = new Order(MemberId, DateTime.Now);
+            OrderHistory.Add(ord);
             return ord;
         }
         public bool IsBirthday()

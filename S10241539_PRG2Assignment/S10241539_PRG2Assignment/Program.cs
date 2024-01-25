@@ -85,6 +85,16 @@ void DisplayCustomerInformation()
     Console.WriteLine();
 }
 
+void Option2()
+{
+    for (int i = 0; i < customerList.Count; i++)
+    {
+        List<Order> orderHistory = customerList[i].OrderHistory;
+        DateTime timeFulfilled = DateTime.Now;
+        Console.WriteLine($"Order ID: {orderHistory[i].Id}\nTime Order Recieved: {orderHistory[i].TimeReceived.ToLongTimeString}\n Order Fulfilled: {timeFulfilled.ToLongTimeString()}");
+    }
+}
+
 // Main Program
 // Other features yet to be implemented.
 // While loop to invoke user input infinitely.
