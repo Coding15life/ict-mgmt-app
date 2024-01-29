@@ -54,6 +54,16 @@ namespace S10241539_PRG2Assignment
 
             return total;
         }
+        public override string ToString()
+        {
+            string l = "";
+            l += ($"Id: {Id} Time Recieved: {TimeReceived} Time Fulfilled: {TimeFulfilled}\n");
+            foreach (IceCream I in IceCreamList)
+            {
+                l += (I.ToString() + "\n");
+            }
+            return l;
+        }
 
 
     }

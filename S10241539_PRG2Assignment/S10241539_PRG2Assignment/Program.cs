@@ -2,16 +2,17 @@
 using System.Diagnostics.Tracing;
 using System.Globalization;
 
-
+Queue<Order> NormalOrders = new Queue<Order>();
+Queue<Order> GoldOrders = new Queue<Order>();
 List<Customer> customerList = new List<Customer>(); //Initializing list of customers
 
 // Method to print the Menu and obtain a user defined option. This makes calling the Menu out again easier
-int DisplayOutput()
+string DisplayOutput()
 {
     // Dislays the options.
-    Console.WriteLine("Menu");
-    Console.WriteLine("----");
-    Console.Write(
+    Console.WriteLine(
+        "Menu\n" +
+        "----\n" +
         "[1] Display All Customers\n" +
         "[2] List All Current Orders\n" +
         "[3] Register a New Customer\n" +
@@ -21,14 +22,14 @@ int DisplayOutput()
         "[0] Exit\n----\n"
     );
 
-    // Prints a new line for ease of viewing.
-    Console.WriteLine();
-
     // Prompt the user to enter option.
     Console.Write("Please Enter Your Option: ");
 
     // Convert input to integer (as the default type is string).
-    int option = Convert.ToInt32(Console.ReadLine());
+    string option = Console.ReadLine();
+    
+    //Extra line for better readability
+    Console.WriteLine();
 
     // Return the option user entered.
     return option;
@@ -85,15 +86,77 @@ void DisplayCustomerInformation()
     Console.WriteLine();
 }
 
-void Option2()
+void ListAllOrders()
 {
+    if (GoldOrders.Count == 0) 
+    {
+        Console.WriteLine("No orders in gold queue.");
+    }
+    else
+    {
+        foreach (Order o in GoldOrders)
+        {
+            Console.WriteLine($"Gold Members\n{o.ToString()}\n");
+        }
+    }
+    if (NormalOrders.Count == 0)
+    {
+        Console.WriteLine("No orders in normal queue.");
+    }
+    else
+    {
+        foreach (Order o in NormalOrders)
+        {
+            Console.WriteLine($"Normal Members\n{o.ToString()}\n");
+        }
+    }
+}
+
+void DisplayOrderDetails()
+{
+    /*
     for (int i = 0; i < customerList.Count; i++)
     {
         List<Order> orderHistory = customerList[i].OrderHistory;
         DateTime timeFulfilled = DateTime.Now;
         Console.WriteLine($"Order ID: {orderHistory[i].Id}\nTime Order Recieved: {orderHistory[i].TimeReceived.ToLongTimeString}\n Order Fulfilled: {timeFulfilled.ToLongTimeString()}");
     }
+    */
 }
+
+/*
+list the customers
+ prompt user to select a customer and retrieve the selected customer
+ retrieve all the order objects of the customer, past and current
+ for each order, display all the details of the order including datetime received, datetime
+fulfilled (if applicable) and all ice cream details associated with the order
+*/
+
+void ModifyOrderDetails()
+{
+    DisplayCustomerInformation();
+    Console.Write("Select a Customer");
+    int search = Convert.ToInt32(Console.ReadLine());
+}
+
+/*
+list the customers
+ prompt user to select a customer and retrieve the selected customer’s current order
+ list all the ice cream objects contained in the order
+ prompt the user to either [1] choose an existing ice cream object to modify, [2] add an 
+entirely new ice cream object to the order, or [3] choose an existing ice cream object to 
+delete from the order
+o if [1] is selected, have the user select which ice cream to modify then prompt the user 
+for the new information for the modifications they wish to make to the ice cream
+selected: option, scoops, flavours, toppings, dipped cone (if applicable), waffle flavour 
+(if applicable) and update the ice cream object’s info accordingly
+o if [2] is selected prompt the user for all the required info to create a new ice cream 
+object and add it to the order
+o if [3] is selected, have the user select which ice cream to delete then remove that ice 
+cream object from the order. But if this is the only ice cream in the order, then simply 
+display a message saying they cannot have zero ice creams in an order
+ display the new updated order
+*/
 
 // Main Program
 // Other features yet to be implemented.
@@ -103,18 +166,44 @@ while (true)
     // Initialise "customerList" for later use by program.
     InitialiseCustomerList(customerList);
     // Display the main menu to show options.
-    int userOption = DisplayOutput();
+    string userOption = DisplayOutput();
 
     // Checks if integer '1' is entered. 
-    if (userOption == 1)
+    if (userOption == "1")
     {
         // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
         DisplayCustomerInformation();
     }
+    else if (userOption == "2")
+    {
+        // If it is, it will invoke ListAllOrder function and displays detailed order information from both the Gold queue and the Normal Queue.
+        ListAllOrders();
+    }
+    else if (userOption == "3")
+    {
+
+    }
+    else if (userOption == "4")
+    {
+
+    }
+    else if (userOption == "5")
+    {
+        // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
+        DisplayOrderDetails();
+    }
+    else if (userOption == "6")
+    {
+        ModifyOrderDetails();
+    }
     // Checks if integer '0' is entered.
-    else if (userOption == 0)
+    else if (userOption == "0")
     {
         // If it is, it exits the loop, and program will stop.
         break;
+    }
+    else 
+    {
+        Console.WriteLine("Please enter a valid option number.");
     }
 }

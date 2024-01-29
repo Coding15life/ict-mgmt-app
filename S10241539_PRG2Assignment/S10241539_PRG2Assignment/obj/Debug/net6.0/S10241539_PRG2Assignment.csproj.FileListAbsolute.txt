@@ -16,3 +16,20 @@ D:\Year 1\Semester 2\Programming II\ICT Management App\ict-mgmt-app\S10241539_PR
 D:\Year 1\Semester 2\Programming II\ICT Management App\ict-mgmt-app\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\customers.csv
 D:\Year 1\Semester 2\Programming II\ICT Management App\ict-mgmt-app\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\flavours.csv
 D:\Year 1\Semester 2\Programming II\ICT Management App\ict-mgmt-app\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\options.csv
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\S10241539_PRG2Assignment.exe
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\customers.csv
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\flavours.csv
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\options.csv
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\S10241539_PRG2Assignment.deps.json
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\S10241539_PRG2Assignment.runtimeconfig.json
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\S10241539_PRG2Assignment.dll
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\bin\Debug\net6.0\S10241539_PRG2Assignment.pdb
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net6.0\S10241539_PRG2Assignment.GeneratedMSBuildEditorConfig.editorconfig
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net6.0\S10241539_PRG2Assignment.AssemblyInfoInputs.cache
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net6.0\S10241539_PRG2Assignment.AssemblyInfo.cs
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net6.0\S10241539_PRG2Assignment.csproj.CoreCompileInputs.cache
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net6.0\S10241539_PRG2Assignment.dll
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net6.0\refint\S10241539_PRG2Assignment.dll
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net6.0\S10241539_PRG2Assignment.pdb
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net6.0\S10241539_PRG2Assignment.genruntimeconfig.cache
+C:\S2 School Files\PRG2\Assignment Final\Assignment Repo\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net6.0\ref\S10241539_PRG2Assignment.dll

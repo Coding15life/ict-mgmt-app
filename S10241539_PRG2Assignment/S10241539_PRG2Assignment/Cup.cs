@@ -31,7 +31,18 @@ namespace S10241539_PRG2Assignment
         }
         public override string ToString()
         {
-            return base.ToString();
+            string l = $"Scoops: {Scoops}\n";
+            l += ("Flavours:\n");
+            foreach (Flavour f in Flavours)
+            {
+                l += (f.ToString() + "\n");
+            }
+            l += ("Toppings:\n");
+            foreach (Topping t in Toppings)
+            {
+                l += (t.ToString() + "\n");
+            }
+            return l;
         }
     }
 }

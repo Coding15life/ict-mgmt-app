@@ -12,7 +12,6 @@ namespace S10241539_PRG2Assignment
         private int memberId;
         private DateTime dob;
         private PointCard rewards;
-
         public string Name { get; set; }
         public int MemberId { get; set; }
         public DateTime Dob { get; set; }
