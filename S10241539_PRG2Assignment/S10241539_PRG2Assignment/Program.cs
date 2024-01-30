@@ -8,6 +8,8 @@ using System.Globalization;
 // Partner Name : Keshav P Chidambaram
 //==========================================================
 
+//Javier Basic Features 1, 3, 4.
+//Keshav Basic Features 2, 5, 6.
 
 Queue<Order> NormalOrders = new Queue<Order>();
 Queue<Order> GoldOrders = new Queue<Order>();
@@ -193,15 +195,274 @@ void ModifyOrderDetails()
                             //Prints out every icecream in the latest order
                             for (int i = 0; i < iceCreams.Count; i++)
                             {
-                                Console.WriteLine($"[{i}] {iceCreams[i]}");
+                                Console.WriteLine($"[{i + 1}] {iceCreams[i]}");
                             }
                             //Asks the user which Ice Cream they want to modify
                             Console.Write("\nEnter the number of the Ice Cream that you want to modify: ");
                             int modice = Convert.ToInt32(Console.ReadLine());
-                            latestord.ModifyIceCream(modice);
-                            
+                            //Calling the ModifyIceCream method in the Order Class to modify the ice cream
+                            latestord.ModifyIceCream(modice - 1); // minussing one here to offset C#'s counting from 0
+                            Console.WriteLine("Order Summary: \n" + latestord + "\n");
+                            break;
+                        } 
+                        else if (option == 2)
+                        {
+                            //Checking the user input get a new value 
+                            Console.Write("What would you like your serving option to be? (Cup/Cone/Waffle): ");
+                            string serv = Console.ReadLine();
+                            if (serv.ToUpper() == "CUP" || serv.ToUpper() == "CONE" || serv.ToUpper() == "WAFFLE")
+                            {
+                                
+                                Console.Write("What would like to change your number of scoops to? (1/2/3 Scoops): ");
+                                //Checking the user input to get a new value for scoops
+                                int scoops = Convert.ToInt32(Console.ReadLine());
+
+                                //Checking if the user has entered a valid number of scoops
+                                if (scoops == 1 || scoops == 2 || scoops == 3)
+                                {
+                                    //initialzing new flavour list to add flavour objects later
+                                    List<Flavour> flavors = new List<Flavour>();
+                                    //initializing a flavour object to make the creation and adding of flavour objects better 
+                                    Flavour flavour1 = new Flavour();
+                                    int flav = 0;
+                                    //looping for as many times as there are scoops as each scoop needs a flavour
+                                    for (int i = 0; i < scoops; i++)
+                                    {
+                                        //creating a while loop that is infinitely running until the user inputs a valid answer
+                                        while (true)
+                                        {
+                                            //displaying menu for customer to choose flavour
+                                            Console.Write("Flavour Menu\n" +
+                                                "------------\n" +
+                                                "Regular Flavours\n" +
+                                                "[1] Vanilla\n" +
+                                                "[2] Chocolate\n" +
+                                                "[3] Strawberry\n" +
+                                                "\nPremium Flavours (+$2)\n" +
+                                                "[4] Durian\n" +
+                                                "[5] Ube\n" +
+                                                "[6] Sea Salt\n" +
+                                                $"\nWhich Flavours do you want (You have {i} choices remaining): ");
+                                            //get customer's flavour choice
+                                            flav = Convert.ToInt32(Console.ReadLine());
+                                            string flavour = "";
+                                            //using flavour object from before to create a new flavour object to add later into the list of flavour objects
+                                            //When choosing regular flavours 
+                                            if (flav == 1)
+                                            {
+                                                flavour = "Vanilla";
+                                                flavour1 = new Flavour(flavour, false, 1);
+                                                break;
+                                            }
+                                            else if (flav == 2)
+                                            {
+                                                flavour = "Chocolate";
+                                                flavour1 = new Flavour(flavour, false, 1);
+                                                break;
+                                            }
+                                            else if (flav == 3)
+                                            {
+                                                flavour = "Strawberry";
+                                                flavour1 = new Flavour(flavour, false, 1);
+                                                break;
+                                            }
+                                            //When choosing Premimum flavours
+                                            else if (flav == 4)
+                                            {
+                                                flavour = "Durian";
+                                                flavour1 = new Flavour(flavour, true, 1);
+                                                break;
+                                            }
+                                            else if (flav == 5)
+                                            {
+                                                flavour = "Ube";
+                                                flavour1 = new Flavour(flavour, true, 1);
+                                                break;
+                                            }
+                                            else if (flav == 6)
+                                            {
+                                                flavour = "Sea Salt";
+                                                flavour1 = new Flavour(flavour, true, 1);
+                                                break;
+                                            }
+                                            //telling user to pick a valid option
+                                            else
+                                            {
+                                                Console.WriteLine("Please Choose a viable option.");
+                                            }
+                                        }
+                                    }
+                                    //Checking if the count of flavour objects is equal to the number of scoops to proceed to the next step in icecream creation
+                                    if (flavors.Count == scoops)
+                                    {
+                                        //initialzing new toppings list to add topping objects later 
+                                        List<Topping> toppings = new List<Topping>();
+                                        //initializing a toping object to make the creation and adding of topping objects better 
+                                        Topping topping = new Topping();
+                                        //creating a while loop that is infinitely running until the user says they do not want anymore toppings
+                                        while (true)
+                                        {
+                                            //displaying the toppings menu
+                                            Console.Write("Toppings Menu (+$1/each)\n" +
+                                                "-------------\n" +
+                                                "[1] Sprinkles\n" +
+                                                "[2] Mochi\n" +
+                                                "[3] Sago\n" +
+                                                "[4] Oreos\n" +
+                                                "[5] I will not be having any toppings\n" +
+                                                "[0] Finish Choices" +
+                                                "Which toppings would you like: ");
+                                            int topchoice = Convert.ToInt32(Console.ReadLine());
+                                            //Checks for which option the user wants to choose and executes it
+                                            if (topchoice == 1)
+                                            {
+                                                topping = new Topping("Sprinkes");
+                                                toppings.Add(topping);
+                                            }
+                                            else if (topchoice == 2)
+                                            {
+                                                topping = new Topping("Mochi");
+                                                toppings.Add(topping);
+                                            }
+                                            else if (topchoice == 3)
+                                            {
+                                                topping = new Topping("Sago");
+                                                toppings.Add(topping);
+                                            }
+                                            else if (topchoice == 4)
+                                            {
+                                                topping = new Topping("Oreos");
+                                                toppings.Add(topping);
+
+                                            }
+                                            else if (topchoice == 5 || topchoice == 0)
+                                            {
+                                                //ends loop When the user does not want anything or they want to complete their order
+                                                if (topchoice == 5)
+                                                {
+                                                    Console.WriteLine("No toppings chosen!\nNow finishing topping choices!");
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("Now finishing topping choices!");
+                                                }
+                                                break;
+                                            }
+                                            //If any input provided is not in the list of options is given a message will be outputted
+                                            else
+                                            {
+                                                Console.WriteLine("Please choose from the given choices");
+                                            }
+                                        }
+                                       //checking if customer wants a cup serving so that other choices that need to be made can be made
+                                        if (serv.ToUpper() == "CUP")
+                                        {
+                                            //create and add an IceCream object
+                                            IceCream iceCream = new Cup(serv, scoops, flavors, toppings);
+                                            latestord.AddIceCream(iceCream);
+                                        }
+                                        //checking if customer wants a cone serving so that other choices that need to be made can be made
+                                        else if (serv.ToUpper() == "CONE")
+                                        {
+                                            //creating a while loop that is infinitely running until the user inputs a valid answer
+                                            while (true)
+                                            {
+                                                //Checking if the customer wants their cone dipped in chocolate
+                                                Console.Write("Do you want you cone dipped in chocolate (Y/N): ");
+                                                //get customers' answer
+                                                string ans = Console.ReadLine();
+                                                //update using customers choice
+                                                //create and add an IceCream object based on the choice they made
+                                                if (ans.ToUpper() == "Y" || ans.ToUpper() == "YES")
+                                                {
+                                                    IceCream iceCream = new Cone(serv, scoops, flavors, toppings, true);
+                                                    latestord.AddIceCream(iceCream);
+                                                    break;
+                                                }
+                                                else if (ans.ToUpper() == "N" || ans.ToUpper() == "NO")
+                                                {
+                                                    IceCream iceCream = new Cone(serv, scoops, flavors, toppings, false);
+                                                    latestord.AddIceCream(iceCream);
+                                                    break;
+                                                }
+                                                //If any input provided is not in the list of options is given a message will be outputted
+                                                else
+                                                {
+                                                    Console.WriteLine("Please anser with either Y/Yes or N/No.\n");
+                                                }
+                                            }
+                                            
+                                        }
+                                        //checking if customer wants a waffle serving so that other choices that need to be made can be made
+                                        else
+                                        {
+                                            //creating a while loop that is infinitely running until the user inputs a valid answer
+                                            while (true)
+                                            {
+                                                //menu to ask customer what flavour of waffle they want
+                                                Console.Write("Waffle flavours\n" +
+                                                    "---------------\n" +
+                                                    "[1] Red Velvet (+$3)\n" +
+                                                    "[2] Charcoal (+$3)\n" +
+                                                    "[3] Pandan (+$3)\n" +
+                                                    "[0] Regular\n" +
+                                                    "What flavoured waffle would you like: ");
+                                                //get which option they chose
+                                                int waffleflavour = Convert.ToInt32(Console.ReadLine());
+                                                //create and add an IceCream object based on the choice they made
+                                                if (waffleflavour == 0)
+                                                {
+                                                    IceCream iceCream = new Waffle(serv, scoops, flavors, toppings, "Regular");
+                                                    latestord.AddIceCream(iceCream);
+                                                    break;
+                                                }else if (waffleflavour == 1)
+                                                {
+                                                    IceCream iceCream = new Waffle(serv, scoops, flavors, toppings, "Red Velvet");
+                                                    latestord.AddIceCream(iceCream);
+                                                    break;
+                                                }else if (waffleflavour == 2)
+                                                {
+                                                    IceCream iceCream = new Waffle(serv, scoops, flavors, toppings, "Charcoal");
+                                                    latestord.AddIceCream(iceCream);
+                                                    break;
+                                                }else if(waffleflavour == 3)
+                                                {
+                                                    IceCream iceCream = new Waffle(serv, scoops, flavors, toppings, "Pandan");
+                                                    latestord.AddIceCream(iceCream);
+                                                    break;
+                                                }
+                                                //If any input provided is not in the list of options is given a message will be outputted
+                                                else
+                                                {
+                                                    Console.WriteLine("Please select a valid flavour option.\n");
+                                                }
+                                                
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Please select from the given options: (1/2/3).");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Please select from the given options: Cup/Cone/Waffle.");
+                            }
+                            Console.WriteLine("Order Summary: \n" + latestord + "\n");
                         }
-                        Console.WriteLine($"");
+                        else if (option == 3)
+                        {
+                            Console.Write("Which Ice Cream do you want to delete: ");
+                            int ice = Convert.ToInt32(Console.ReadLine());
+                            latestord.DeleteIceCream(ice - 1);// minussing one here to offset C#'s counting from 0
+                        } 
+                        else if (option == 0)
+                        {
+                            break;
+                        }
                     }
                 }
                 else
@@ -228,7 +489,7 @@ void ModifyOrderDetails()
         //Any other potentially unforseen input appears
         catch (Exception)
         {
-            Console.WriteLine("Please enter a valid integer value.");
+            Console.WriteLine("Please enter a valid value from the options given.");
         }
     }
 }
