@@ -2,12 +2,19 @@
 using System.Diagnostics.Tracing;
 using System.Globalization;
 
+//==========================================================
+// Student Number : S10241539
+// Student Name : Javier Lim
+// Partner Name : Keshav P Chidambaram
+//==========================================================
+
+
 Queue<Order> NormalOrders = new Queue<Order>();
 Queue<Order> GoldOrders = new Queue<Order>();
 List<Customer> customerList = new List<Customer>(); //Initializing list of customers
 
 // Method to print the Menu and obtain a user defined option. This makes calling the Menu out again easier
-string DisplayOutput()
+int DisplayOutput()
 {
     // Dislays the options.
     Console.WriteLine(
@@ -26,7 +33,7 @@ string DisplayOutput()
     Console.Write("Please Enter Your Option: ");
 
     // Convert input to integer (as the default type is string).
-    string option = Console.ReadLine();
+    int option = Convert.ToInt32(Console.ReadLine());
     
     //Extra line for better readability
     Console.WriteLine();
@@ -86,32 +93,38 @@ void DisplayCustomerInformation()
     Console.WriteLine();
 }
 
+//Feature 2: List all Orders from both gold and normal queue
 void ListAllOrders()
 {
+    //Checks if there are no orders in Gold queue
     if (GoldOrders.Count == 0) 
     {
         Console.WriteLine("No orders in gold queue.");
     }
+    //Prints out details of orders from the customers in the Gold queue
     else
     {
         foreach (Order o in GoldOrders)
         {
-            Console.WriteLine($"Gold Members\n{o.ToString()}\n");
+            Console.WriteLine($"Gold Members\n{o}\n");
         }
     }
+    //Checks if there are no orders in Normal queue
     if (NormalOrders.Count == 0)
     {
-        Console.WriteLine("No orders in normal queue.");
+        Console.WriteLine("No orders in normal queue.\n");
     }
+    //Prints out details of orders from the customers in the Normal queue
     else
     {
         foreach (Order o in NormalOrders)
         {
-            Console.WriteLine($"Normal Members\n{o.ToString()}\n");
+            Console.WriteLine($"Normal Members\n{o}\n");
         }
     }
 }
 
+//Feature 5: lists customers and depending on the user's selection displays all information on a customer's order
 void DisplayOrderDetails()
 {
     /*
@@ -132,20 +145,100 @@ list the customers
 fulfilled (if applicable) and all ice cream details associated with the order
 */
 
+//Feature 6: manages customer orders, allowing selection, modification, addition, or deletion of ice cream objects, and displaying the updated order.
 void ModifyOrderDetails()
 {
+    //caling the first feature for easier printing of customers
     DisplayCustomerInformation();
-    Console.Write("Select a Customer");
-    int search = Convert.ToInt32(Console.ReadLine());
+    while (true)
+    {
+        Console.Write("Select a Customer (Enter Id of desired Customer): ");
+        try
+        {
+            //Getting a  value from the user to search for the customer whose latest order they want to modify
+            int search = Convert.ToInt32(Console.ReadLine());
+            //Looping through every customer in customer list to check if the memberId and the id entered in search is the same
+            foreach (Customer customer in customerList)
+            {
+                //Checks if there is a customer with the memberId of "search"
+                if (search == customer.MemberId)
+                {
+                    //To check if the selected customer has yet to make an order
+                    if (customer.OrderHistory.Count == 0)
+                    {
+                        Console.WriteLine("This customer hasn't made any orders yet! Maybe you should convince them to order at our Ice Cream Shop! :)\n");
+                    }
+                    else
+                    {
+                        //calls the OrderHistory list from a Customer object's OrderHistory list
+                        List<Order> ordlist = customer.OrderHistory;
+                        Order latestord = ordlist[ordlist.Count - 1];
+                        //displaying the selected customer's latest order
+                        Console.WriteLine("\n" + latestord + "\n");
+
+                        //displaying the options the customer can choose
+                        Console.Write("What would you like to do with this order?\n------------------------------------------" +
+                            "[1] Modify an existing Ice Cream\n" +
+                            "[2] Add a new Ice Cream\n" +
+                            "[3] Delete an existing Ice Cream\n" +
+                            "[0] Exit" +
+                            "\nEnter Your Choice: ");
+                        //reads the option the user has selected and changes it into a integer object
+                        int option = Convert.ToInt32(Console.ReadLine());
+                        if (option == 1)
+                        {
+                            //initializes a list called ice creams that stores all 
+                            List<IceCream> iceCreams = latestord.IceCreamList;
+                            
+                            //Prints out every icecream in the latest order
+                            for (int i = 0; i < iceCreams.Count; i++)
+                            {
+                                Console.WriteLine($"[{i}] {iceCreams[i]}");
+                            }
+                            //Asks the user which Ice Cream they want to modify
+                            Console.Write("\nEnter the number of the Ice Cream that you want to modify: ");
+                            int modice = Convert.ToInt32(Console.ReadLine());
+                            latestord.ModifyIceCream(modice);
+                            
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("A member with this member Id does not exist.");
+                    //To break out of for loop since there is no need to continue to loop through every customer
+                    break;
+                }
+            }
+            //To break out of while loop after breaking out of for loop
+            break;
+        }
+        //Input Validation to catch and handle errors that are outputted by invalid inputs
+        //To check if the wrong format is entered into the input statement
+        catch (FormatException)
+        {
+            Console.WriteLine("Please enter a integer number");
+        }
+        //To check if the user did not give any input and provided a null input
+        catch (ArgumentNullException)
+        {
+            Console.WriteLine("Please enter a valid value that isn't null");
+        }
+        //Any other potentially unforseen input appears
+        catch (Exception)
+        {
+            Console.WriteLine("Please enter a valid integer value.");
+        }
+    }
 }
 
 /*
 list the customers
- prompt user to select a customer and retrieve the selected customer’s current order
- list all the ice cream objects contained in the order
+ prompt user to select a customer and retrieve the selected customer’s current order +
+ list all the ice cream objects contained in the order +
  prompt the user to either [1] choose an existing ice cream object to modify, [2] add an 
 entirely new ice cream object to the order, or [3] choose an existing ice cream object to 
-delete from the order
+delete from the order +
 o if [1] is selected, have the user select which ice cream to modify then prompt the user 
 for the new information for the modifications they wish to make to the ice cream
 selected: option, scoops, flavours, toppings, dipped cone (if applicable), waffle flavour 
@@ -161,49 +254,68 @@ display a message saying they cannot have zero ice creams in an order
 // Main Program
 // Other features yet to be implemented.
 // While loop to invoke user input infinitely.
-while (true)
+try
 {
-    // Initialise "customerList" for later use by program.
-    InitialiseCustomerList(customerList);
-    // Display the main menu to show options.
-    string userOption = DisplayOutput();
+    while (true)
+    {
+        // Initialise "customerList" for later use by program.
+        InitialiseCustomerList(customerList);
+        // Display the main menu to show options.
+        int userOption = DisplayOutput();
 
-    // Checks if integer '1' is entered. 
-    if (userOption == "1")
-    {
-        // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
-        DisplayCustomerInformation();
-    }
-    else if (userOption == "2")
-    {
-        // If it is, it will invoke ListAllOrder function and displays detailed order information from both the Gold queue and the Normal Queue.
-        ListAllOrders();
-    }
-    else if (userOption == "3")
-    {
+        // Checks if integer '1' is entered. 
+        if (userOption == 1)
+        {
+            // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
+            DisplayCustomerInformation();
+        }
+        else if (userOption == 2)
+        {
+            // If it is, it will invoke ListAllOrder function and displays detailed order information from both the Gold queue and the Normal Queue.
+            ListAllOrders();
+        }
+        else if (userOption == 3)
+        {
 
-    }
-    else if (userOption == "4")
-    {
+        }
+        else if (userOption == 4)
+        {
 
+        }
+        else if (userOption == 5)
+        {
+            // If it is, it will invoke DisplayOrderDetails function and displays detailed customer order information.
+            DisplayOrderDetails();
+        }
+        else if (userOption == 6)
+        {
+            //If it is, it will invoke ModifyOrderDetails function and asks the user the id of the customer and get the order which will then modify the order based on the user's requiremets
+            ModifyOrderDetails();
+        }
+        // Checks if integer '0' is entered.
+        else if (userOption == 0)
+        {
+            // If it is, it exits the loop, and program will stop.
+            break;
+        }
+        else
+        {
+            //Tells the user that they have entered an invalid option number
+            Console.WriteLine("Please enter a valid option number.");
+        }
     }
-    else if (userOption == "5")
-    {
-        // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
-        DisplayOrderDetails();
-    }
-    else if (userOption == "6")
-    {
-        ModifyOrderDetails();
-    }
-    // Checks if integer '0' is entered.
-    else if (userOption == "0")
-    {
-        // If it is, it exits the loop, and program will stop.
-        break;
-    }
-    else 
-    {
-        Console.WriteLine("Please enter a valid option number.");
-    }
+}
+catch (FormatException)
+{
+    Console.WriteLine("Please enter a integer number");
+}
+//To check if the user did not give any input and provided a null input
+catch (ArgumentNullException)
+{
+    Console.WriteLine("Please enter a valid value that isn't null");
+}
+//Any other potentially unforseen input appears
+catch (Exception)
+{
+    Console.WriteLine("Please enter a valid integer value.");
 }
