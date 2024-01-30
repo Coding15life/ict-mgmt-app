@@ -201,6 +201,7 @@ void ModifyOrderDetails()
                             latestord.ModifyIceCream(modice);
                             
                         }
+                        Console.WriteLine($"");
                     }
                 }
                 else

@@ -104,7 +104,7 @@ namespace S10241539_PRG2Assignment
         //Prints out the details of a Cup object
         public override string ToString()
         {
-            return $"Points: {Points}\nPunch Card: {PunchCard}\nTier: {Tier}";
+            return $"Points: {Points}\nPunchs on Punch Card: {PunchCard}\nTier: {Tier}";
         }
     }
 }

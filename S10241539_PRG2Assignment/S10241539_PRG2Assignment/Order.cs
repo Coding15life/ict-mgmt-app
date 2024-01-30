@@ -292,10 +292,7 @@ namespace S10241539_PRG2Assignment
                                 $"New Price: ${selectice.CalculatePrice}");
                 }
                 // Checks if integer '0' is entered and exit the program when 0 is entered
-                else if (opt == 0) {
-                    Console.WriteLine($"Ice cream details:\n{selectice}\n" +
-                                $"New Price: ${selectice.CalculatePrice}");
-                }
+                else if (opt == 0) { }
                 // If a non-integer object is given, a error is provided and breaks the for loop
                 else
                 {
