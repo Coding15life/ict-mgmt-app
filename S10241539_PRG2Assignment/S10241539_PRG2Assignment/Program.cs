@@ -1,11 +1,17 @@
 ﻿using S10241539_PRG2Assignment;
 using System.Diagnostics.Tracing;
+using System.Drawing;
 using System.Globalization;
 
 
 List<Customer> customerList = new List<Customer>(); //Initializing list of customers
 
 // Method to print the Menu and obtain a user defined option. This makes calling the Menu out again easier
+
+// ==========
+// Functions|
+// ==========
+
 int DisplayOutput()
 {
     // Dislays the options.
@@ -54,6 +60,10 @@ void InitialiseCustomerList(List<Customer> cs)
     }
 }
 
+// =========
+// Features|
+// =========
+
 // Feature 1: List all customers
 void DisplayCustomerInformation()
 {
@@ -95,13 +105,39 @@ void Option2()
     }
 }
 
+// Feature 3: Register new customer
+void RegisterNewCustomer()
+{
+    // Enter customer's information
+    Console.Write("Enter customer's name: ");
+    string newCustomerName = Console.ReadLine();
+    Console.Write("Enter customer's ID: ");
+    int newCustomerID = Convert.ToInt32(Console.ReadLine());
+    Console.Write("Enter customer's date of birth: ");
+    DateTime newCustomerDOB = Convert.ToDateTime(Console.ReadLine());
+
+    // Create new customer object.
+    Customer newCustomer = new Customer(newCustomerName, newCustomerID, newCustomerDOB);
+
+    // Create "PointCard" object, and assign it to customer.
+    PointCard newPointCard = new PointCard(0, 0);
+    newPointCard.Tier = "Ordinary";
+    newCustomer.Rewards = newPointCard;
+
+    // Create line to be appended by program.
+    string data = newCustomerName + "," + newCustomerID + "," + newCustomerDOB + newPointCard.Tier + newPointCard.Points + newPointCard.PunchCard;
+
+    // Append data to csv file.
+    File.AppendAllText("customers.csv", $"\n{data}");
+}
+
 // Main Program
 // Other features yet to be implemented.
 // While loop to invoke user input infinitely.
 while (true)
 {
     // Initialise "customerList" for later use by program.
-    InitialiseCustomerList(customerList);
+    // InitialiseCustomerList(customerList);
     // Display the main menu to show options.
     int userOption = DisplayOutput();
 
@@ -110,6 +146,11 @@ while (true)
     {
         // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
         DisplayCustomerInformation();
+    }
+    // Checks if integer '2' is entered.
+    if (userOption == 2)
+    {
+        RegisterNewCustomer();
     }
     // Checks if integer '0' is entered.
     else if (userOption == 0)
