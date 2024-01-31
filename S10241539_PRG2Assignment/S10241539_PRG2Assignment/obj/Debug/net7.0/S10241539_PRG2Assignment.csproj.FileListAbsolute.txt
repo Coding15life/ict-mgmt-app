@@ -1,5 +1,0 @@
-D:\Year 1\Semester 2\Programming II\ICT Management App\ict-mgmt-app\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net7.0\S10241539_PRG2Assignment.GeneratedMSBuildEditorConfig.editorconfig
-D:\Year 1\Semester 2\Programming II\ICT Management App\ict-mgmt-app\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net7.0\S10241539_PRG2Assignment.AssemblyInfoInputs.cache
-D:\Year 1\Semester 2\Programming II\ICT Management App\ict-mgmt-app\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net7.0\S10241539_PRG2Assignment.AssemblyInfo.cs
-D:\Year 1\Semester 2\Programming II\ICT Management App\ict-mgmt-app\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net7.0\S10241539_PRG2Assignment.csproj.CoreCompileInputs.cache
-D:\Year 1\Semester 2\Programming II\ICT Management App\ict-mgmt-app\S10241539_PRG2Assignment\S10241539_PRG2Assignment\obj\Debug\net7.0\S10241539_PRG2Assignment.sourcelink.json
