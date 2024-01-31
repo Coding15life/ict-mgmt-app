@@ -16,7 +16,7 @@ Queue<Order> GoldOrders = new Queue<Order>();
 List<Customer> customerList = new List<Customer>(); //Initializing list of customers
 
 // Method to print the Menu and obtain a user defined option. This makes calling the Menu out again easier
-int DisplayOutput()
+int DisplayMenu()
 {
     // Dislays the options.
     Console.WriteLine(
@@ -129,14 +129,43 @@ void ListAllOrders()
 //Feature 5: lists customers and depending on the user's selection displays all information on a customer's order
 void DisplayOrderDetails()
 {
-    /*
-    for (int i = 0; i < customerList.Count; i++)
+    try
     {
-        List<Order> orderHistory = customerList[i].OrderHistory;
-        DateTime timeFulfilled = DateTime.Now;
-        Console.WriteLine($"Order ID: {orderHistory[i].Id}\nTime Order Recieved: {orderHistory[i].TimeReceived.ToLongTimeString}\n Order Fulfilled: {timeFulfilled.ToLongTimeString()}");
+        //displays customer information
+        DisplayCustomerInformation();
+        Console.Write("Which Customer's order history would you like to access (Enter Member Id) : ");
+        //get user input for which user they want to access
+        int DispOrder = Convert.ToInt32(Console.ReadLine());
+        // Search customerList for selected Customer
+        for (int i = 0; i < customerList.Count; i++)
+        {
+            if (customerList[i].MemberId == DispOrder) 
+            {
+                //Prints out details of every order in the selected customer's OrderHistory
+                foreach(Order ord in customerList[i].OrderHistory)
+                {
+                    Console.WriteLine(ord);
+                }
+            }
+            else { Console.WriteLine("A customer with this member Id does not exist."); }
+        }
     }
-    */
+    //Input Validation to catch and handle errors that are outputted by invalid inputs
+    //To check if the wrong format is entered into the input statement
+    catch (FormatException)
+    {
+        Console.WriteLine("Please enter a integer number");
+    }
+    //To check if the user did not give any input and provided a null input
+    catch (ArgumentNullException)
+    {
+        Console.WriteLine("Please enter a valid value that isn't null");
+    }
+    //Any other potentially unforseen input appears
+    catch (Exception)
+    {
+        Console.WriteLine("Please enter a valid value from the options given.");
+    }
 }
 
 /*
@@ -523,7 +552,7 @@ try
         // Initialise "customerList" for later use by program.
         InitialiseCustomerList(customerList);
         // Display the main menu to show options.
-        int userOption = DisplayOutput();
+        int userOption = DisplayMenu();
 
         // Checks if integer '1' is entered. 
         if (userOption == 1)

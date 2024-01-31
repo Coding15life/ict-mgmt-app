@@ -34,7 +34,7 @@ namespace S10241539_PRG2Assignment
         {
             Id = id;
             TimeReceived = timeReceived;
-            TimeFulfilled = DateTime.Now;
+            
         }
 
         //Creating a method that allows the customer to edit every aspect of their order 
