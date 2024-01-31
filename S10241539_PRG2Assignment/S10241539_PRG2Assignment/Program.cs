@@ -70,6 +70,151 @@ void InitialiseCustomerList(List<Customer> cs)
     }
 }
 
+void InitialiseOrderlist(List<Order> orders)
+{
+    using (StreamReader reader = new StreamReader("orders.csv"))
+    {
+        // Skip the header line
+        string[] header = reader.ReadLine().Split(',');
+
+        //gets a bool value that indicates if the current stream position is at the end of the stream so that loop only stops when at end of csv
+        while (!reader.EndOfStream)
+        {
+            var line = reader.ReadLine();
+            string[] values = line.Split(',');
+
+            int id = Convert.ToInt32(values[0]);
+            DateTime timeReceived = Convert.ToDateTime(values[2]);
+            DateTime timeFulfilled = Convert.ToDateTime(values[3]);
+
+            List<Flavour> flavours = new List<Flavour>();
+            List<Topping> toppings = new List<Topping>();
+            IceCream iceCream = null;
+            Topping topping = null;
+            Flavour flavour = null;
+            string option = values[4];
+            int scoops = Convert.ToInt32(values[5]);
+            if (option == "Cup")
+            {
+                for (int i = 1; 1 <= scoops; i++)
+                {
+                    bool premium = false;
+                    if (values[7 + i].ToUpper() == "DURIAN" || values[8].ToUpper() == "UBE" || values[8].ToUpper() == "SEA SALT")
+                    {
+                        premium = true;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
+                    }
+                    else
+                    {
+                        premium = false;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
+                    }
+                }
+                foreach (string value in values)
+                {
+                    if (value.ToUpper() == "SPRINKLES" || value.ToUpper() == "MOCHI" || value.ToUpper() == "SAGO" || value.ToUpper() == "OREOS")
+                    {
+                        topping = new Topping(value);
+                        toppings.Add(topping);
+                    }
+                }
+                iceCream = new Cup(option, scoops, flavours, toppings);
+            }
+            //If order serving option is a Cone 
+            else if (option == "Cone")
+            {
+                bool isdipped = false;
+                for (int i = 1; 1 <= scoops; i++)
+                {
+                    bool premium = false;
+                    if (values[7 + i].ToUpper() == "DURIAN" || values[8].ToUpper() == "UBE" || values[8].ToUpper() == "SEA SALT")
+                    {
+                        premium = true;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
+                    }
+                    else
+                    {
+                        premium = false;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
+                    }
+                }
+                foreach (string value in values)
+                {
+                    if (value.ToUpper() == "SPRINKLES" || value.ToUpper() == "MOCHI" || value.ToUpper() == "SAGO" || value.ToUpper() == "OREOS")
+                    {
+                        topping = new Topping(value);
+                        toppings.Add(topping);
+                    }
+                }
+                if (values[6] == "TRUE")
+                {
+                    isdipped = true;
+                }
+                else
+                {
+                    isdipped = false;
+                }
+                iceCream = new Cone(option, scoops, flavours, toppings, isdipped);
+            }
+            else
+            {
+                string waffleflav = "";
+                for (int i = 1; 1 <= scoops; i++)
+                {
+                    bool premium = false;
+                    if (values[7 + i].ToUpper() == "DURIAN" || values[8].ToUpper() == "UBE" || values[8].ToUpper() == "SEA SALT")
+                    {
+                        premium = true;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
+                    }
+                    else
+                    {
+                        premium = false;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
+                    }
+                }
+                foreach (string value in values)
+                {
+                    if (value.ToUpper() == "SPRINKLES" || value.ToUpper() == "MOCHI" || value.ToUpper() == "SAGO" || value.ToUpper() == "OREOS")
+                    {
+                        topping = new Topping(value);
+                        toppings.Add(topping);
+                    }
+                }
+                if (values[7].ToUpper() == "RED VELVET" || values[7].ToUpper() == "CHARCOAL" || values[7].ToUpper() == "PANDAN WAFFLE" || values[7].ToUpper() == "ORIGINAL")
+                {
+                    waffleflav = values[7];
+                }
+                else
+                {
+                    waffleflav = "Original";
+                }
+                iceCream = new Waffle(option, scoops, flavours, toppings, waffleflav);
+            }
+
+            // Check if order with the same id already exists
+            Order existingOrder = orders.Find(o => o.Id == id);
+            if (existingOrder != null)
+            {
+                existingOrder.IceCreamList.Add(iceCream);
+            }
+            else
+            {
+                Order newOrder = new Order(id, timeReceived);
+                newOrder.TimeFulfilled = timeFulfilled;
+                newOrder.IceCreamList.Add(iceCream);
+                orders.Add(newOrder);
+            }
+        }
+    }
+}
+
 // =========
 // Features|
 // =========
@@ -203,14 +348,6 @@ void DisplayOrderDetails()
         Console.WriteLine("Please enter a valid value from the options given.");
     }
 }
-
-/*
-list the customers
- prompt user to select a customer and retrieve the selected customer
- retrieve all the order objects of the customer, past and current
- for each order, display all the details of the order including datetime received, datetime
-fulfilled (if applicable) and all ice cream details associated with the order
-*/
 
 //Feature 6: manages customer orders, allowing selection, modification, addition, or deletion of ice cream objects, and displaying the updated order.
 void ModifyOrderDetails()
@@ -559,24 +696,7 @@ void ModifyOrderDetails()
     }
 }
 
-/*
-list the customers
- prompt user to select a customer and retrieve the selected customer’s current order +
- list all the ice cream objects contained in the order +
- prompt the user to either [1] choose an existing ice cream object to modify, [2] add an 
-entirely new ice cream object to the order, or [3] choose an existing ice cream object to 
-delete from the order +
-o if [1] is selected, have the user select which ice cream to modify then prompt the user 
-for the new information for the modifications they wish to make to the ice cream
-selected: option, scoops, flavours, toppings, dipped cone (if applicable), waffle flavour 
-(if applicable) and update the ice cream object’s info accordingly
-o if [2] is selected prompt the user for all the required info to create a new ice cream 
-object and add it to the order
-o if [3] is selected, have the user select which ice cream to delete then remove that ice 
-cream object from the order. But if this is the only ice cream in the order, then simply 
-display a message saying they cannot have zero ice creams in an order
- display the new updated order
-*/
+
 
 // Main Program
 // Other features yet to be implemented.

@@ -14,6 +14,7 @@ namespace S10241539_PRG2Assignment
 {
     internal class Customer
     {
+        //Creating private name, memberId, dob objects to ensure that the initialization code is only called when necessary
         private string name;
         private int memberId;
         private DateTime dob;
@@ -36,7 +37,7 @@ namespace S10241539_PRG2Assignment
         }
         public Order MakeOrder()
         {
-            Order ord = new Order(MemberId, DateTime.Now);
+            Order ord = new Order();
             OrderHistory.Add(ord);
             return ord;
         }
