@@ -17,16 +17,12 @@ Queue<Order> GoldOrders = new Queue<Order>();
 List<Customer> customerList = new List<Customer>(); //Initializing list of customers
 
 // Method to print the Menu and obtain a user defined option. This makes calling the Menu out again easier
-<<<<<<< HEAD
 
 // ==========
 // Functions|
 // ==========
 
 int DisplayOutput()
-=======
-int DisplayMenu()
->>>>>>> 49067c68f2a93619873bd1df866590c3a81a8267
 {
     // Dislays the options.
     Console.WriteLine(
@@ -140,7 +136,6 @@ void ListAllOrders()
     }
 }
 
-<<<<<<< HEAD
 // Feature 3: Register new customer
 void RegisterNewCustomer()
 {
@@ -167,7 +162,6 @@ void RegisterNewCustomer()
     File.AppendAllText("customers.csv", $"\n{data}");
 }
 
-=======
 //Feature 5: lists customers and depending on the user's selection displays all information on a customer's order
 void DisplayOrderDetails()
 {
@@ -584,41 +578,17 @@ display a message saying they cannot have zero ice creams in an order
  display the new updated order
 */
 
->>>>>>> 49067c68f2a93619873bd1df866590c3a81a8267
 // Main Program
 // Other features yet to be implemented.
 // While loop to invoke user input infinitely.
 try
 {
-<<<<<<< HEAD
-    // Initialise "customerList" for later use by program.
-    // InitialiseCustomerList(customerList);
-    // Display the main menu to show options.
-    int userOption = DisplayOutput();
-
-    // Checks if integer '1' is entered. 
-    if (userOption == 1)
-    {
-        // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
-        DisplayCustomerInformation();
-    }
-    // Checks if integer '2' is entered.
-    if (userOption == 2)
-    {
-        RegisterNewCustomer();
-    }
-    // Checks if integer '0' is entered.
-    else if (userOption == 0)
-    {
-        // If it is, it exits the loop, and program will stop.
-        break;
-=======
     while (true)
     {
         // Initialise "customerList" for later use by program.
         InitialiseCustomerList(customerList);
         // Display the main menu to show options.
-        int userOption = DisplayMenu();
+        int userOption = DisplayOutput();
 
         // Checks if integer '1' is entered. 
         if (userOption == 1)
@@ -633,7 +603,7 @@ try
         }
         else if (userOption == 3)
         {
-
+            RegisterNewCustomer();
         }
         else if (userOption == 4)
         {
@@ -660,7 +630,6 @@ try
             //Tells the user that they have entered an invalid option number
             Console.WriteLine("Please enter a valid option number.");
         }
->>>>>>> 49067c68f2a93619873bd1df866590c3a81a8267
     }
 }
 catch (FormatException)
