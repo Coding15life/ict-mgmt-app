@@ -2,6 +2,7 @@
 using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 
 //==========================================================
 // Student Number : S10241539
@@ -70,8 +71,9 @@ void InitialiseCustomerList(List<Customer> cs)
     }
 }
 
-void InitialiseOrderlist(List<Order> orders)
+void InitialiseOrderlist(Queue<Order>GoldOrders, Queue<Order> NormalOrders)
 {
+    List<int> idlist = new List<int>();
     using (StreamReader reader = new StreamReader("orders.csv"))
     {
         // Skip the header line
@@ -80,12 +82,22 @@ void InitialiseOrderlist(List<Order> orders)
         //gets a bool value that indicates if the current stream position is at the end of the stream so that loop only stops when at end of csv
         while (!reader.EndOfStream)
         {
-            var line = reader.ReadLine();
-            string[] values = line.Split(',');
+            string[] values = reader.ReadLine().Split(',');
 
             int id = Convert.ToInt32(values[0]);
+            bool idexists = false;
+            if (idlist.Contains(id))
+            {
+                idexists = true;
+            }
+            else
+            {
+                idexists = false;
+                idlist.Add(id);
+            }
             DateTime timeReceived = Convert.ToDateTime(values[2]);
             DateTime timeFulfilled = Convert.ToDateTime(values[3]);
+            int memberId = Convert.ToInt32(values[1]);
 
             List<Flavour> flavours = new List<Flavour>();
             List<Topping> toppings = new List<Topping>();
@@ -197,20 +209,54 @@ void InitialiseOrderlist(List<Order> orders)
                 }
                 iceCream = new Waffle(option, scoops, flavours, toppings, waffleflav);
             }
-
-            // Check if order with the same id already exists
-            Order existingOrder = orders.Find(o => o.Id == id);
-            if (existingOrder != null)
+            foreach (Customer customer in customerList) 
             {
-                existingOrder.IceCreamList.Add(iceCream);
+                if (customer.MemberId == memberId)
+                {
+                    if (customer.Rewards.Tier == "Gold")
+                    {
+                        // Check if order with the same id already exists
+                        if (idexists == true)
+                        {
+                            foreach (Order ord in customer.OrderHistory)
+                            {
+                                if (ord.TimeReceived == timeReceived)
+                                {
+                                    ord.IceCreamList.Add(iceCream);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Order newOrder = new Order(id, timeReceived);
+                            newOrder.TimeFulfilled = timeFulfilled;
+                            newOrder.IceCreamList.Add(iceCream);
+                            GoldOrders.Enqueue(newOrder);
+                            customer.OrderHistory.Add(newOrder);
+                        }
+                    }
+                    else
+                    {
+                        // Check if order with the same id already exists
+                        if (idexists == true)
+                        {
+                            foreach (Order ord in customer.OrderHistory)
+                            {
+                                if (ord.TimeReceived == timeReceived)
+                                {
+                                    ord.IceCreamList.Add(iceCream);
+                                }
+                            }
+                        }
+                        Order newOrder = new Order(id, timeReceived);
+                        newOrder.TimeFulfilled = timeFulfilled;
+                        newOrder.IceCreamList.Add(iceCream);
+                        NormalOrders.Enqueue(newOrder);
+                        customer.OrderHistory.Add(newOrder);
+                    }
+                }
             }
-            else
-            {
-                Order newOrder = new Order(id, timeReceived);
-                newOrder.TimeFulfilled = timeFulfilled;
-                newOrder.IceCreamList.Add(iceCream);
-                orders.Add(newOrder);
-            }
+            
         }
     }
 }
@@ -696,7 +742,9 @@ void ModifyOrderDetails()
     }
 }
 
-
+//==================
+//Advanced features|
+//==================
 
 // Main Program
 // Other features yet to be implemented.
@@ -707,6 +755,7 @@ try
     {
         // Initialise "customerList" for later use by program.
         InitialiseCustomerList(customerList);
+        InitialiseOrderlist(GoldOrders, NormalOrders);
         // Display the main menu to show options.
         int userOption = DisplayOutput();
 
