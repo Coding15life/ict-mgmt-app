@@ -4,6 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//==========================================================
+// Student Number : S10241539
+// Student Name : Javier Lim
+// Partner Name : Keshav P Chidambaram
+//==========================================================
+
 namespace S10241539_PRG2Assignment
 {
     internal class Customer
@@ -12,7 +18,6 @@ namespace S10241539_PRG2Assignment
         private int memberId;
         private DateTime dob;
         private PointCard rewards;
-
         public string Name { get; set; }
         public int MemberId { get; set; }
         public DateTime Dob { get; set; }
