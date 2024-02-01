@@ -4,6 +4,7 @@ using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Net.Security;
 using System.Reflection;
 
 //==========================================================
@@ -117,13 +118,13 @@ void InitialiseOrderlist(Queue<Order>GoldOrders, Queue<Order> NormalOrders)
                     if (values[7 + i].ToUpper() == "DURIAN" || values[7 + i].ToUpper() == "UBE" || values[7 + i].ToUpper() == "SEA SALT")
                     {
                         premium = true;
-                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavour = new Flavour(values[7 + i], premium);
                         flavours.Add(flavour);
                     }
                     else
                     {
                         premium = false;
-                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavour = new Flavour(values[7 + i], premium);
                         flavours.Add(flavour);
                     }
                 }
@@ -147,13 +148,13 @@ void InitialiseOrderlist(Queue<Order>GoldOrders, Queue<Order> NormalOrders)
                     if (values[7 + i].ToUpper() == "DURIAN" || values[7 + i].ToUpper() == "UBE" || values[7 + i].ToUpper() == "SEA SALT")
                     {
                         premium = true;
-                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavour = new Flavour(values[7 + i], premium);
                         flavours.Add(flavour);
                     }
                     else
                     {
                         premium = false;
-                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavour = new Flavour(values[7 + i], premium);
                         flavours.Add(flavour);
                     }
                 }
@@ -184,13 +185,13 @@ void InitialiseOrderlist(Queue<Order>GoldOrders, Queue<Order> NormalOrders)
                     if (values[7 + i].ToUpper() == "DURIAN" || values[7 + i].ToUpper() == "UBE" || values[7 + i].ToUpper() == "SEA SALT")
                     {
                         premium = true;
-                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavour = new Flavour(values[7 + i], premium);
                         flavours.Add(flavour);
                     }
                     else
                     {
                         premium = false;
-                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavour = new Flavour(values[7 + i], premium);
                         flavours.Add(flavour);
                     }
                 }
@@ -360,95 +361,117 @@ void RegisterNewCustomer()
 // Feature 4: Create customer order
 void CreateCustomerOrder()
 {
-    Order newOrder = new Order();
-    //Checking the user input get a new value 
-    Console.Write("What would you like your serving option to be? (Cup/Cone/Waffle): ");
-    string serv = Console.ReadLine();
-    if (serv.ToUpper() == "CUP" || serv.ToUpper() == "CONE" || serv.ToUpper() == "WAFFLE")
+    // Display the customer's information.
+    DisplayCustomerInformation();
+
+    try
     {
+        string[] customers = File.ReadAllLines("customers.csv");
+        bool idFound = false;
+        
+        // Ask user to choose customer.
+        Console.Write("Enter your customer ID: ");
+        int customerID = Convert.ToInt32(Console.ReadLine());
 
-        Console.Write("What would like to change your number of scoops to? (1/2/3 Scoops): ");
-        //Checking the user input to get a new value for scoops
-        int scoops = Convert.ToInt32(Console.ReadLine());
+        // Create the order object.
+        Order newOrder = new Order(customerID, DateTime.Now);
 
-        //Checking if the user has entered a valid number of scoops
-        if (scoops == 1 || scoops == 2 || scoops == 3)
+
+        // Get the serving option from the user.
+        Console.Write("What would you like your serving option to be? (Cup/Cone/Waffle): ");
+        string serv = Console.ReadLine();
+        if (serv.ToUpper() == "CUP" || serv.ToUpper() == "CONE" || serv.ToUpper() == "WAFFLE")
         {
-            //initialzing new flavour list to add flavour objects later
-            List<Flavour> flavors = new List<Flavour>();
-            //initializing a flavour object to make the creation and adding of flavour objects better 
-            Flavour flavour1 = new Flavour();
-            int flav = 0;
-            //looping for as many times as there are scoops as each scoop needs a flavour
-            for (int i = 0; i < scoops; i++)
+
+            Console.Write("What would like to change your number of scoops to? (1/2/3 Scoops): ");
+            //Checking the user input to get a new value for scoops
+            int scoops = Convert.ToInt32(Console.ReadLine());
+
+            //Checking if the user has entered a valid number of scoops
+            if (scoops < 1 && scoops > 3)
             {
-                //creating a while loop that is infinitely running until the user inputs a valid answer
-                while (true)
+                Console.WriteLine("Please select from the given options: (1/2/3).");
+            }
+            else
+            {
+                //initialzing new flavour list to add flavour objects later
+                List<Flavour> flavors = new List<Flavour>();
+                //initializing a flavour object to make the creation and adding of flavour objects better 
+                Flavour flavour1 = new Flavour();
+                int flav = 0;
+                //looping for as many times as there are scoops as each scoop needs a flavour
+                for (int i = scoops; i > 0; i--)
                 {
-                    //displaying menu for customer to choose flavour
-                    Console.Write("Flavour Menu\n" +
-                        "------------\n" +
-                        "Regular Flavours\n" +
-                        "[1] Vanilla\n" +
-                        "[2] Chocolate\n" +
-                        "[3] Strawberry\n" +
-                        "\nPremium Flavours (+$2)\n" +
-                        "[4] Durian\n" +
-                        "[5] Ube\n" +
-                        "[6] Sea Salt\n" +
-                        $"\nWhich Flavours do you want (You have {i} choices remaining): ");
-                    //get customer's flavour choice
-                    flav = Convert.ToInt32(Console.ReadLine());
-                    string flavour = "";
-                    //using flavour object from before to create a new flavour object to add later into the list of flavour objects
-                    //When choosing regular flavours 
-                    if (flav == 1)
+                    //creating a while loop that is infinitely running until the user inputs a valid answer
+                    while (true)
                     {
-                        flavour = "Vanilla";
-                        flavour1 = new Flavour(flavour, false, 1);
-                        break;
-                    }
-                    else if (flav == 2)
-                    {
-                        flavour = "Chocolate";
-                        flavour1 = new Flavour(flavour, false, 1);
-                        break;
-                    }
-                    else if (flav == 3)
-                    {
-                        flavour = "Strawberry";
-                        flavour1 = new Flavour(flavour, false, 1);
-                        break;
-                    }
-                    //When choosing Premimum flavours
-                    else if (flav == 4)
-                    {
-                        flavour = "Durian";
-                        flavour1 = new Flavour(flavour, true, 1);
-                        break;
-                    }
-                    else if (flav == 5)
-                    {
-                        flavour = "Ube";
-                        flavour1 = new Flavour(flavour, true, 1);
-                        break;
-                    }
-                    else if (flav == 6)
-                    {
-                        flavour = "Sea Salt";
-                        flavour1 = new Flavour(flavour, true, 1);
-                        break;
-                    }
-                    //telling user to pick a valid option
-                    else
-                    {
-                        Console.WriteLine("Please Choose a viable option.");
+                        //displaying menu for customer to choose flavour
+                        Console.Write("Flavour Menu\n" +
+                            "------------\n" +
+                            "Regular Flavours\n" +
+                            "[1] Vanilla\n" +
+                            "[2] Chocolate\n" +
+                            "[3] Strawberry\n" +
+                            "\nPremium Flavours (+$2)\n" +
+                            "[4] Durian\n" +
+                            "[5] Ube\n" +
+                            "[6] Sea Salt\n" +
+                            $"\nWhich Flavours do you want (You have {i - 1} choices remaining): ");
+                        //get customer's flavour choice
+                        flav = Convert.ToInt32(Console.ReadLine());
+                        string flavour = "";
+                        //using flavour object from before to create a new flavour object to add later into the list of flavour objects
+                        //When choosing regular flavours 
+                        if (flav == 1)
+                        {
+                            flavour = "Vanilla";
+                            flavour1 = new Flavour(flavour, false);
+                            flavors.Add(flavour1);
+                            break;
+                        }
+                        else if (flav == 2)
+                        {
+                            flavour = "Chocolate";
+                            flavour1 = new Flavour(flavour, false);
+                            flavors.Add(flavour1);
+                            break;
+                        }
+                        else if (flav == 3)
+                        {
+                            flavour = "Strawberry";
+                            flavour1 = new Flavour(flavour, false);
+                            break;
+                        }
+                        //When choosing Premimum flavours
+                        else if (flav == 4)
+                        {
+                            flavour = "Durian";
+                            flavour1 = new Flavour(flavour, true);
+                            flavors.Add(flavour1);
+                            break;
+                        }
+                        else if (flav == 5)
+                        {
+                            flavour = "Ube";
+                            flavour1 = new Flavour(flavour, true);
+                            flavors.Add(flavour1);
+                            break;
+                        }
+                        else if (flav == 6)
+                        {
+                            flavour = "Sea Salt";
+                            flavour1 = new Flavour(flavour, true);
+                            flavors.Add(flavour1);
+                            break;
+                        }
+                        //telling user to pick a valid option
+                        else
+                        {
+                            Console.WriteLine("Please Choose a viable option.");
+                        }
                     }
                 }
-            }
-            //Checking if the count of flavour objects is equal to the number of scoops to proceed to the next step in icecream creation
-            if (flavors.Count == scoops)
-            {
+
                 //initialzing new toppings list to add topping objects later 
                 List<Topping> toppings = new List<Topping>();
                 //initializing a toping object to make the creation and adding of topping objects better 
@@ -464,7 +487,7 @@ void CreateCustomerOrder()
                         "[3] Sago\n" +
                         "[4] Oreos\n" +
                         "[5] I will not be having any toppings\n" +
-                        "[0] Finish Choices" +
+                        "[0] Finish Choices\n" +
                         "Which toppings would you like: ");
                     int topchoice = Convert.ToInt32(Console.ReadLine());
                     //Checks for which option the user wants to choose and executes it
@@ -508,6 +531,7 @@ void CreateCustomerOrder()
                         Console.WriteLine("Please choose from the given choices");
                     }
                 }
+
                 //checking if customer wants a cup serving so that other choices that need to be made can be made
                 if (serv.ToUpper() == "CUP")
                 {
@@ -527,13 +551,13 @@ void CreateCustomerOrder()
                         string ans = Console.ReadLine();
                         //update using customers choice
                         //create and add an IceCream object based on the choice they made
-                        if (ans.ToUpper() == "Y" || ans.ToUpper() == "YES")
+                        if (ans.ToUpper() == "Y")
                         {
                             IceCream iceCream = new Cone(serv, scoops, flavors, toppings, true);
                             newOrder.AddIceCream(iceCream);
                             break;
                         }
-                        else if (ans.ToUpper() == "N" || ans.ToUpper() == "NO")
+                        else if (ans.ToUpper() == "N")
                         {
                             IceCream iceCream = new Cone(serv, scoops, flavors, toppings, false);
                             newOrder.AddIceCream(iceCream);
@@ -542,7 +566,7 @@ void CreateCustomerOrder()
                         //If any input provided is not in the list of options is given a message will be outputted
                         else
                         {
-                            Console.WriteLine("Please anser with either Y/Yes or N/No.\n");
+                            Console.WriteLine("Please answer with either Y or N.\n");
                         }
                     }
 
@@ -601,14 +625,16 @@ void CreateCustomerOrder()
         }
         else
         {
-            Console.WriteLine("Please select from the given options: (1/2/3).");
+            Console.WriteLine("Please select from the given options: Cup/Cone/Waffle.");
         }
+
+        // If true, order summary will be displayed.
+        Console.WriteLine("Order Summary: \n" + newOrder + "\n");
     }
-    else
+    catch (FormatException)
     {
-        Console.WriteLine("Please select from the given options: Cup/Cone/Waffle.");
+        Console.WriteLine("Invalid input type!");
     }
-    Console.WriteLine("Order Summary: \n" + newOrder + "\n");
 }
 
 //Feature 5: lists customers and depending on the user's selection displays all information on a customer's order
@@ -763,38 +789,38 @@ void ModifyOrderDetails()
                                             if (flav == 1)
                                             {
                                                 flavour = "Vanilla";
-                                                flavour1 = new Flavour(flavour, false, 1);
+                                                flavour1 = new Flavour(flavour, false);
                                                 break;
                                             }
                                             else if (flav == 2)
                                             {
                                                 flavour = "Chocolate";
-                                                flavour1 = new Flavour(flavour, false, 1);
+                                                flavour1 = new Flavour(flavour, false);
                                                 break;
                                             }
                                             else if (flav == 3)
                                             {
                                                 flavour = "Strawberry";
-                                                flavour1 = new Flavour(flavour, false, 1);
+                                                flavour1 = new Flavour(flavour, false);
                                                 break;
                                             }
                                             //When choosing Premimum flavours
                                             else if (flav == 4)
                                             {
                                                 flavour = "Durian";
-                                                flavour1 = new Flavour(flavour, true, 1);
+                                                flavour1 = new Flavour(flavour, true);
                                                 break;
                                             }
                                             else if (flav == 5)
                                             {
                                                 flavour = "Ube";
-                                                flavour1 = new Flavour(flavour, true, 1);
+                                                flavour1 = new Flavour(flavour, true);
                                                 break;
                                             }
                                             else if (flav == 6)
                                             {
                                                 flavour = "Sea Salt";
-                                                flavour1 = new Flavour(flavour, true, 1);
+                                                flavour1 = new Flavour(flavour, true);
                                                 break;
                                             }
                                             //telling user to pick a valid option
@@ -1073,64 +1099,62 @@ while (true)
     // Display the main menu to show options.
     int userOption = DisplayOutput();
 
-    if (userOption > 0 && userOption <= 7)
+    // Initialise "customerList" for later use by program.
+    InitialiseCustomerList(customerList);
+    InitialiseOrderlist(GoldOrders, NormalOrders);
+    // Checks if integer '1' is entered. 
+    if (userOption == 1)
     {
-        // Initialise "customerList" for later use by program.
-        InitialiseCustomerList(customerList);
-        InitialiseOrderlist(GoldOrders, NormalOrders);
-        // Checks if integer '1' is entered. 
-        if (userOption == 1)
+        // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
+        DisplayCustomerInformation();
+    }
+    else if (userOption == 2)
+    {
+        // If it is, it will invoke ListAllOrder function and displays detailed order information from both the Gold queue and the Normal Queue.
+        ListAllOrders();
+    }
+    else if (userOption == 3)
+    {
+        RegisterNewCustomer();
+    }
+    else if (userOption == 4)
+    {
+        CreateCustomerOrder();
+    }
+    else if (userOption == 5)
+    {
+        // If it is, it will invoke DisplayOrderDetails function and displays detailed customer order information.
+        DisplayOrderDetails();
+    }
+    else if (userOption == 6)
+    {
+        //If it is, it will invoke ModifyOrderDetails function and asks the user the id of the customer and get the order which will then modify the order based on the user's requiremets
+        ModifyOrderDetails();
+    }
+    else if (userOption == 7)
+    {
+        //If it is, it will invoke DisplayAdvancedMenu function and asks the user which advanced option they want to execute
+        int option = AdvancedMenu();
+        if (option == 1)
         {
-            // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
-            DisplayCustomerInformation();
-        }
-        else if (userOption == 2)
-        {
-            // If it is, it will invoke ListAllOrder function and displays detailed order information from both the Gold queue and the Normal Queue.
-            ListAllOrders();
-        }
-        else if (userOption == 3)
-        {
-            RegisterNewCustomer();
-        }
-        else if (userOption == 4)
-        {
-            CreateCustomerOrder();
-        }
-        else if (userOption == 5)
-        {
-            // If it is, it will invoke DisplayOrderDetails function and displays detailed customer order information.
-            DisplayOrderDetails();
-        }
-        else if (userOption == 6)
-        {
-            //If it is, it will invoke ModifyOrderDetails function and asks the user the id of the customer and get the order which will then modify the order based on the user's requiremets
-            ModifyOrderDetails();
-        }
-        else if (userOption == 7)
-        {
-            //If it is, it will invoke DisplayAdvancedMenu function and asks the user which advanced option they want to execute
-            int option = AdvancedMenu();
-            if (option == 1)
-            {
 
-            }
-            else if (option == 2)
-            {
-                DisplayChargedAmts();
-            }
+        }
+        else if (option == 2)
+        {
+            DisplayChargedAmts();
         }
     }
-    // Checks if integer '0' is entered.
     else if (userOption == 0)
     {
         // If it is, it exits the loop, and program will stop.
         Console.WriteLine("Program ended.");
+        // Exit the program
+        break;
     }
     else
     {
+        // Print error message.
         Console.WriteLine("No valid option selected");
-        continue;
     }
 }
 /*

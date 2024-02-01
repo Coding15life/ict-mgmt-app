@@ -17,24 +17,21 @@ namespace S10241539_PRG2Assignment
     {
         private string type;
         private bool premium;
-        private int quantity;
 
         public string Type { get; set; }
         public bool Premium { get; set; }
-        public int Quantity { get; set; }
 
         public Flavour() { }
 
-        public Flavour(string flavourType, bool isPremium, int icQuantity)
+        public Flavour(string flavourType, bool isPremium)
         {
             Type = flavourType;
             Premium = isPremium;
-            Quantity = icQuantity;
         }
 
         public override string ToString()
         {
-            return base.ToString() + $"\tFlavour option: {Type}\tPremium flavour: {Premium}\tItem quantity: {Quantity}";
+            return base.ToString() + $"\tFlavour option: {Type}\tPremium flavour: {Premium}";
         }
     }
 }

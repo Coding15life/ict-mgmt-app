@@ -87,38 +87,38 @@ namespace S10241539_PRG2Assignment
                                 if (flav == 1)
                                 {
                                     flavour = "Vanilla";
-                                    flavour1 = new Flavour(flavour, false, 1);
+                                    flavour1 = new Flavour(flavour, false);
                                     break;
                                 }
                                 else if (flav == 2)
                                 {
                                     flavour = "Chocolate";
-                                    flavour1 = new Flavour(flavour, false, 1);
+                                    flavour1 = new Flavour(flavour, false);
                                     break;
                                 }
                                 else if (flav == 3)
                                 {
                                     flavour = "Strawberry";
-                                    flavour1 = new Flavour(flavour, false, 1);
+                                    flavour1 = new Flavour(flavour, false);
                                     break;
                                 }
                                 //When choosing Premimum flavours
                                 else if (flav == 4)
                                 {
                                     flavour = "Durian";
-                                    flavour1 = new Flavour(flavour, true, 1);
+                                    flavour1 = new Flavour(flavour, true);
                                     break;
                                 }
                                 else if (flav == 5)
                                 {
                                     flavour = "Ube";
-                                    flavour1 = new Flavour(flavour, true, 1);
+                                    flavour1 = new Flavour(flavour, true);
                                     break;
                                 }
                                 else if (flav == 6)
                                 {
                                     flavour = "Sea Salt";
-                                    flavour1 = new Flavour(flavour, true, 1);
+                                    flavour1 = new Flavour(flavour, true);
                                     break;
                                 }
                                 //telling user to pick a valid option
