@@ -752,10 +752,12 @@ void ModifyOrderDetails()
         if (search < 100000)
         {
             Console.WriteLine("Input is too short. Please enter Member Id length of 6");
+            continue;
         }
         else if (search > 999999)
         {
             Console.WriteLine("Input is too long. Please enter Member Id length of 6");
+            continue;
         }
         else
         {
