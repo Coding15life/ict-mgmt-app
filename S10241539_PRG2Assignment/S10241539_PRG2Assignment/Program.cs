@@ -270,6 +270,7 @@ void InitialiseOrderlist(Queue<Order> GoldOrders, Queue<Order> NormalOrders)
 // Features|
 // =========
 
+//Javier's Feature
 // Feature 1: List all customers
 void DisplayCustomerInformation()
 {
@@ -301,6 +302,7 @@ void DisplayCustomerInformation()
     Console.WriteLine();
 }
 
+//Keshav's Feature
 //Feature 2: List all Orders from both gold and normal queue
 void ListAllOrders()
 {
@@ -335,6 +337,8 @@ void ListAllOrders()
     }
 }
 
+
+//Javier's Feature
 // Feature 3: Register new customer
 void RegisterNewCustomer()
 {
@@ -386,6 +390,7 @@ void RegisterNewCustomer()
     }
 }
 
+//Javier's Feature
 // Feature 4: Create customer order
 void CreateCustomerOrder()
 {
@@ -665,6 +670,7 @@ void CreateCustomerOrder()
     }
 }
 
+//Keshav's Feature
 //Feature 5: lists customers and depending on the user's selection displays all information on a customer's order
 void DisplayOrderDetails()
 {
@@ -711,6 +717,7 @@ void DisplayOrderDetails()
     }
 }
 
+//Keshav's feature
 //Feature 6: manages customer orders, allowing selection, modification, addition, or deletion of ice cream objects, and displaying the updated order.
 void ModifyOrderDetails()
 {
@@ -781,15 +788,20 @@ void ModifyOrderDetails()
                             Console.Write("Enter Your Choice: ");
                             int option = Convert.ToInt32(Console.ReadLine());
 
+                            //This allows us to check which option the user wants to run.
+                            //Switch executes a line of code when a specific defined case situation occurs else it runs the default line of code.
                             switch (option)
                             {
                                 case 1:
+                                    //if the user chooses option 1 (modifies an existing ice cream)
                                     ModifyExistingIceCream(latestOrder);
                                     break;
                                 case 2:
+                                    //if the user chooses option 2 (create a new ice cream and add it to the order)
                                     AddNewIceCream(latestOrder);
                                     break;
                                 case 3:
+                                    //if the user chooses option 3 (delete an existing ice cream and add it to the order)
                                     DeleteExistingIceCream(latestOrder);
                                     break;
                                 case 0:
@@ -879,14 +891,17 @@ int AdvancedMenu()
     int option = Convert.ToInt32(Console.ReadLine());
     return option;
 }
+
+//Keshav's Feature
+//Advanced Feature 2: displays information about sales in the months of a user-defined year. Also displays total sales in user-defined year
 void DisplayChargedAmts()
 {
-    //initializing a list variable that stores order objects that are in the given time frame
-    List<Order> validOrders = new List<Order>();
     int Year = 0;
     //gets user input for which year to showcase
     Console.Write("Enter the year: ");
+    //get user defined year
     Year = Convert.ToInt32(Console.ReadLine());
+    //to check if year is too much into the future or too much in the past
     if(Year > 2024)
     {
         Console.WriteLine("You have specified a year in the far far future. Come back then to see the updated data. For now, enter a year after 1999 but before 2025.");
@@ -897,6 +912,9 @@ void DisplayChargedAmts()
     }
     else
     {
+        //initializing a list variable that stores order objects that are in the given time frame
+        List<Order> validOrders = new List<Order>();
+        //adds every valid order in the time span of the defined year into the validOrders list
         foreach (Customer customer in customerList)
         {
             foreach (Order ord in customer.OrderHistory)
@@ -932,9 +950,10 @@ void DisplayChargedAmts()
             datesortedorders[ord.TimeFulfilled?.ToString("MMMM")] += ord.CalculateTotal();
         }
 
+        //Display output for Advanced Feature 2 that shows details on the months in the defined year and gives total sales for every month and the total for that year.
         foreach (KeyValuePair<string, double> kvp in datesortedorders)
         {
-            Console.WriteLine($"{kvp.Key} {Year}\t\t${kvp.Value}");
+            Console.WriteLine($"\n{kvp.Key} {Year}\t\t${kvp.Value}");
         }
 
     }
@@ -956,42 +975,52 @@ while (true)
     // Checks if integer '1' is entered. 
     if (userOption == 1)
     {
+        //Javier's Feature
         // If it is, it will invoke DisplayCustomerInformation function and displays detailed customer information.
         DisplayCustomerInformation();
     }
     else if (userOption == 2)
     {
+        //Keshav's Feature
         // If it is, it will invoke ListAllOrder function and displays detailed order information from both the Gold queue and the Normal Queue.
         ListAllOrders();
     }
     else if (userOption == 3)
     {
+        //Javier's Feature
         RegisterNewCustomer();
     }
     else if (userOption == 4)
     {
+        //Javier's Feature
         CreateCustomerOrder();
     }
     else if (userOption == 5)
     {
+        //Keshav's Feature
         // If it is, it will invoke DisplayOrderDetails function and displays detailed customer order information.
         DisplayOrderDetails();
     }
     else if (userOption == 6)
     {
+        //Keshav's Feature
         //If it is, it will invoke ModifyOrderDetails function and asks the user the id of the customer and get the order which will then modify the order based on the user's requiremets
         ModifyOrderDetails();
     }
     else if (userOption == 7)
     {
+        //Keshav's Feature
         //If it is, it will invoke DisplayAdvancedMenu function and asks the user which advanced option they want to execute
         int option = AdvancedMenu();
         if (option == 1)
         {
+            //Javier's Feature
 
         }
         else if (option == 2)
         {
+            //Keshav's Feature
+            //When option 2 is chosen, the DisplayChargedAmts function is called upon. On the occasion it is called, it asks for a year input and displays the
             try
             {
                 DisplayChargedAmts();
@@ -1019,19 +1048,3 @@ while (true)
         Console.WriteLine("No valid option selected");
     }
 }
-/*
-    catch (FormatException)
-    {
-        Console.WriteLine("Please enter a integer option number");
-    }
-    //To check if the user did not give any input and provided a null input
-    catch (ArgumentNullException)
-    {
-        Console.WriteLine("Please enter a valid value that isn't null");
-    }
-    //Any other potentially unforseen input appears
-    catch (Exception)
-    {
-        Console.WriteLine("Please enter a valid integer option value.");
-    }
-*/
