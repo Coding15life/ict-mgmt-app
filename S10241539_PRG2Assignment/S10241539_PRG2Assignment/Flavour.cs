@@ -31,7 +31,7 @@ namespace S10241539_PRG2Assignment
 
         public override string ToString()
         {
-            return base.ToString() + $"\tFlavour option: {Type}\tPremium flavour: {Premium}";
+            return $"\tFlavour option: {Type}\tPremium flavour: {Premium}";
         }
     }
 }

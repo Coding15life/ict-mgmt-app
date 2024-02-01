@@ -6,6 +6,8 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Security;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Text;
 
 //==========================================================
 // Student Number : S10241539
@@ -336,11 +338,13 @@ void ListAllOrders()
 // Feature 3: Register new customer
 void RegisterNewCustomer()
 {
+    string newCustomerName = "";
+    int newCustomerID = 0;
     // Enter customer's information
     Console.Write("Enter customer's name: ");
-    string newCustomerName = Console.ReadLine();
+    newCustomerName = Console.ReadLine();
     Console.Write("Enter customer's ID: ");
-    int newCustomerID = Convert.ToInt32(Console.ReadLine());
+    newCustomerID = Convert.ToInt32(Console.ReadLine());
     if (newCustomerID < 100000)
     {
         Console.WriteLine("Please enter a 6-digit Id that does not start with 0");
@@ -356,7 +360,7 @@ void RegisterNewCustomer()
                 break;
             }
         }
-        if (idfound = true)
+        if (idfound == true)
         {
             Console.WriteLine("ID already in use.");
         }
@@ -674,7 +678,6 @@ void DisplayOrderDetails()
         // Search customerList for selected Customer
         foreach (Customer customer in customerList)
         {
-            Console.WriteLine(customer.MemberId);
             if (customer.MemberId == DispOrder)
             {
                 if (customer.OrderHistory.Count > 0)
@@ -694,12 +697,12 @@ void DisplayOrderDetails()
     //To check if the wrong format is entered into the input statement
     catch (FormatException)
     {
-        Console.WriteLine("Please enter a integer number");
+        Console.WriteLine("Please enter a integer number corresponding to the Member Id of your desired customer.");
     }
     //To check if the user did not give any input and provided a null input
     catch (ArgumentNullException)
     {
-        Console.WriteLine("Please enter a valid value that isn't null");
+        Console.WriteLine("Please enter a Member Id that belongs to your chosen customer.");
     }
     //Any other potentially unforseen input appears
     catch (Exception)
@@ -715,82 +718,99 @@ void ModifyOrderDetails()
 
     while (true)
     {
-        Console.Write("Select a Customer (Enter Id of desired Customer): ");
-
+        int search = 0;
         try
         {
-            int search = Convert.ToInt32(Console.ReadLine());
-            if (search < 100000)
-            {
-                Console.WriteLine("Input is too short. Please enter Member Id length of 6");
-            }
-            else if (search > 999999)
-            {
-                Console.WriteLine("Input is too long. Please enter Member Id length of 6");
-            }
-            else
-            {
-                foreach (Customer customer in customerList)
-                {
-                    if (search == customer.MemberId)
-                    {
-                        if (customer.OrderHistory.Count == 0)
-                        {
-                            Console.WriteLine("This customer hasn't made any orders yet!\n");
-                            return;
-                        }
+            Console.Write("Select a Customer (Enter Id of desired Customer): ");
+            search = Convert.ToInt32(Console.ReadLine());
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Please enter a valid integer number.");
+            continue; // Skip the rest of the loop iteration and start over
+        }
+        catch (OverflowException)
+        {
+            Console.WriteLine("The number you entered is too large or too small.");
+            continue; // Skip the rest of the loop iteration and start over
+        }
+        catch (NullReferenceException)
+        {
+            Console.WriteLine("No input entered");
+            continue; // Skip the rest of the loop iteration and start over
+        }
 
+        if (search < 100000)
+        {
+            Console.WriteLine("Input is too short. Please enter Member Id length of 6");
+        }
+        else if (search > 999999)
+        {
+            Console.WriteLine("Input is too long. Please enter Member Id length of 6");
+        }
+        else
+        {
+            foreach (Customer customer in customerList)
+            {
+                if (search == customer.MemberId)
+                {
+                    if (customer.OrderHistory.Count == 0)
+                    {
+                        Console.WriteLine("This customer hasn't made any orders yet!\n");
+                        break;
+                    }
+                    else
+                    {
                         Order latestOrder = customer.OrderHistory.LastOrDefault();
 
                         Console.WriteLine("\nLatest Order Summary: \n" + latestOrder + "\n");
 
-                        Console.WriteLine("Options:\n" +
+                        if (latestOrder.TimeFulfilled != null)
+                        {
+                            Console.WriteLine("This order has already been fulfilled. Unable to modify this order");
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Options:\n" +
                                           "[1] Modify an existing Ice Cream\n" +
                                           "[2] Add a new Ice Cream\n" +
                                           "[3] Delete an existing Ice Cream\n" +
                                           "[0] Exit");
 
-                        Console.Write("Enter Your Choice: ");
-                        int option = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("Enter Your Choice: ");
+                            int option = Convert.ToInt32(Console.ReadLine());
 
-                        switch (option)
-                        {
-                            case 1:
-                                ModifyExistingIceCream(latestOrder);
-                                break;
-                            case 2:
-                                AddNewIceCream(latestOrder);
-                                break;
-                            case 3:
-                                DeleteExistingIceCream(latestOrder);
-                                break;
-                            case 0:
-                                return;
-                            default:
-                                Console.WriteLine("Invalid option. Please enter a valid choice.");
-                                break;
+                            switch (option)
+                            {
+                                case 1:
+                                    ModifyExistingIceCream(latestOrder);
+                                    break;
+                                case 2:
+                                    AddNewIceCream(latestOrder);
+                                    break;
+                                case 3:
+                                    DeleteExistingIceCream(latestOrder);
+                                    break;
+                                case 0:
+                                    return;
+                                default:
+                                    Console.WriteLine("Invalid option. Please enter a valid choice.");
+                                    break;
+                            }
                         }
                     }
                 }
+                else
+                {
+                    Console.WriteLine("A member with this member Id does not exist.");
+                    break;
+                }
             }
-
-            Console.WriteLine("A member with this member Id does not exist.");
-            break;
-        }
-        catch (FormatException)
-        {
-            Console.WriteLine("Please enter a valid integer number.");
-        }
-        catch (OverflowException)
-        {
-            Console.WriteLine("The number you entered is too large or too small.");
-        }
-        catch (NullReferenceException)
-        {
-            Console.WriteLine("No input entered");
         }
     }
 }
+
 
 void ModifyExistingIceCream(Order latestOrder)
 {
@@ -803,9 +823,19 @@ void ModifyExistingIceCream(Order latestOrder)
     {
         Console.WriteLine($"[{i + 1}] {iceCreams[i]}");
     }
-    //Asks the user which Ice Cream they want to modify
-    Console.Write("\nEnter the number of the Ice Cream that you want to modify: ");
-    int modice = Convert.ToInt32(Console.ReadLine());
+    int modice = 0;
+    try
+    {
+        //Asks the user which Ice Cream they want to modify
+        Console.Write("\nEnter the number of the Ice Cream that you want to modify: ");
+        modice = Convert.ToInt32(Console.ReadLine());
+    } catch (FormatException)
+    {
+        Console.WriteLine("Please enter a integer of the correponding option");
+    } catch(OverflowException)
+    {
+        Console.WriteLine("Input was longer that 32 bits. Please choose an option from the menu and enter its corressponding option number");
+    }
     //Calling the ModifyIceCream method in the Order Class to modify the ice cream
     latestOrder.ModifyIceCream(modice - 1); // minussing one here to offset C#'s counting from 0
     Console.WriteLine("Order Summary: \n" + latestOrder + "\n");
@@ -853,44 +883,63 @@ void DisplayChargedAmts()
 {
     //initializing a list variable that stores order objects that are in the given time frame
     List<Order> validOrders = new List<Order>();
+    int Year = 0;
     //gets user input for which year to showcase
     Console.Write("Enter the year: ");
-    int Year = Convert.ToInt32(Console.ReadLine());
-    foreach (Order ord in GoldOrders)
+    Year = Convert.ToInt32(Console.ReadLine());
+    if(Year > 2024)
     {
-        int ordYear = Convert.ToInt32(ord.TimeFulfilled?.Year);
-        if (ordYear == Year) 
-        {
-            validOrders.Add(ord);
-        }
+        Console.WriteLine("You have specified a year in the far far future. Come back then to see the updated data. For now, enter a year after 1999 but before 2025.");
     }
-    //Initializing a datetime object to make comparing order dates later much easier
-    DateTime? latestOrd = null;
-    //Initializing a datetime queue to make a sorted order list that is sorted by date easily
-    Queue<Order> sortedOrders = new Queue<Order>();
-    //To order the list of valid orders by datetime
-    while (sortedOrders.Count != validOrders.Count)
+    else if(Year < 2000)
     {
-        foreach (Order ord in validOrders)
+        Console.WriteLine("I am sorry but we did NOT exist then. For now, enter a year after 1999 but before 2025.");
+    }
+    else
+    {
+        foreach (Customer customer in customerList)
         {
-            if (ord.TimeFulfilled > latestOrd)
+            foreach (Order ord in customer.OrderHistory)
             {
-                latestOrd = ord.TimeFulfilled;
-                sortedOrders.Enqueue(ord);
+                int ordYear = Convert.ToInt32(ord.TimeFulfilled?.Year);
+                if (ordYear == Year)
+                {
+                    validOrders.Add(ord);
+                }
             }
         }
-    }
-    Dictionary<string, Order> orders = new Dictionary<string, Order>();
-    DateTime? lastord = null;
-    while (sortedOrders.Count != 0)
+        //dictonary of months and the total amount of money earned in each month
+        Dictionary<string, double> datesortedorders = new Dictionary<string, double>
     {
-        double monthlytotal  = 0;
-        foreach (Order ord in sortedOrders)
+        { "January", 0 },
+        { "February", 0 },
+        { "March", 0 },
+        { "April", 0 },
+        { "May", 0 },
+        { "June", 0 },
+        { "July", 0 },
+        { "August", 0 },
+        { "September", 0 },
+        { "October", 0 },
+        { "November", 0 },
+        { "December", 0 }
+    };
+
+        //total for the specified year
+        double yeartotal = 0;
+        foreach (Order ord in validOrders)
         {
-            
+            datesortedorders[ord.TimeFulfilled?.ToString("MMMM")] += ord.CalculateTotal();
         }
+
+        foreach (KeyValuePair<string, double> kvp in datesortedorders)
+        {
+            Console.WriteLine($"{kvp.Key} {Year}\t\t${kvp.Value}");
+        }
+
     }
 }
+    
 
 // Main Program
 // Other features yet to be implemented.
@@ -943,7 +992,18 @@ while (true)
         }
         else if (option == 2)
         {
-            DisplayChargedAmts();
+            try
+            {
+                DisplayChargedAmts();
+            }
+            catch(FormatException)
+            {
+                Console.WriteLine("Enter year in integers. The year must be after 1999 but before 2025.");
+            } 
+            catch(OverflowException) 
+            {
+                Console.WriteLine("Your Year is larger than a 32 bits please shorten it to a a 4-digit year that is after 1999 but before 2025.");
+            }
         }
     }
     else if (userOption == 0)

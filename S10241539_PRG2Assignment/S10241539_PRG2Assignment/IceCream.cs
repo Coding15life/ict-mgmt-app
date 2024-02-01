@@ -30,17 +30,18 @@ namespace S10241539_PRG2Assignment
 
         public override string ToString()
         {
-            string flavourline = string.Empty;
+            string line = "";
+            line += $"Serving options: {Option}\tScoops: {Scoops}\tFlavours: \n";
             foreach (Flavour flavour in Flavours)
             {
-                flavourline += flavour;
+                line += flavour.ToString() + "\n";
             }
-            string toppingline = string.Empty;
+            line += "Toppings: \n";
             foreach (Topping topping in Toppings)
             {
-                toppingline += topping;
+                line += topping.ToString() + "\n";
             }
-            return $"Serving options: {Option}\nScoops: {Scoops}\nFlavours: {flavourline}\nToppings: {toppingline}";
+            return line;
         }
     }
 }

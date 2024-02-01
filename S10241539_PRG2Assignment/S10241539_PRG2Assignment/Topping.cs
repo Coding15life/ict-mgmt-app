@@ -27,7 +27,7 @@ namespace S10241539_PRG2Assignment
 
         public override string ToString()
         {
-            return base.ToString() + $"\tTopping: {Type}";
+            return Type;
         }
     }
 }
