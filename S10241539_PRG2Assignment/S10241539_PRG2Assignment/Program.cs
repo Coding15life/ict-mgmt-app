@@ -4,6 +4,7 @@ using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 
 //==========================================================
 // Student Number : S10241539
@@ -67,7 +68,7 @@ void InitialiseCustomerList(List<Customer> cs)
 
         // Create the "Customer" object with name, ID, and date of birth.
         Customer currentCustomer = new Customer(customerDetail[0], Convert.ToInt32(customerDetail[1]), Convert.ToDateTime(customerDetail[2]));
-
+        currentCustomer.Rewards = new PointCard(Convert.ToInt32(customerDetail[4]), Convert.ToInt32(customerDetail[5]));
         // Add this object into the array.
         cs.Add(currentCustomer);
     }
@@ -75,211 +76,192 @@ void InitialiseCustomerList(List<Customer> cs)
 
 void InitialiseOrderlist(Queue<Order>GoldOrders, Queue<Order> NormalOrders)
 {
-    try
+    List<int> idlist = new List<int>();
+    using (StreamReader reader = new StreamReader("orders.csv"))
     {
-        List<int> idlist = new List<int>();
-        using (StreamReader reader = new StreamReader("orders.csv"))
+        // Skip the header line
+        string[] header = reader.ReadLine().Split(',');
+
+        //gets a bool value that indicates if the current stream position is at the end of the stream so that loop only stops when at end of csv
+        while (!reader.EndOfStream)
         {
-            // Skip the header line
-            string[] header = reader.ReadLine().Split(',');
+            string[] values = reader.ReadLine().Split(',');
 
-            //gets a bool value that indicates if the current stream position is at the end of the stream so that loop only stops when at end of csv
-            while (!reader.EndOfStream)
+            int id = Convert.ToInt32(values[0]);
+            bool idexists = false;
+            if (idlist.Contains(id))
             {
-                string[] values = reader.ReadLine().Split(',');
+                idexists = true;
+            }
+            else
+            {
+                idexists = false;
+                idlist.Add(id);
+            }
+            DateTime timeReceived = Convert.ToDateTime(values[2]);
+            DateTime timeFulfilled = Convert.ToDateTime(values[3]);
+            int memberId = Convert.ToInt32(values[1]);
 
-                int id = Convert.ToInt32(values[0]);
-                bool idexists = false;
-                if (idlist.Contains(id))
+            List<Flavour> flavours = new List<Flavour>();
+            List<Topping> toppings = new List<Topping>();
+            IceCream iceCream = null;
+            Topping topping = null;
+            Flavour flavour = null;
+            string option = values[4];
+            int scoops = Convert.ToInt32(values[5]);
+            if (option == "Cup")
+            {
+                for (int i = 1; i < scoops; i++)
                 {
-                    idexists = true;
-                }
-                else
-                {
-                    idexists = false;
-                    idlist.Add(id);
-                }
-                DateTime timeReceived = Convert.ToDateTime(values[2]);
-                DateTime timeFulfilled = Convert.ToDateTime(values[3]);
-                int memberId = Convert.ToInt32(values[1]);
-
-                List<Flavour> flavours = new List<Flavour>();
-                List<Topping> toppings = new List<Topping>();
-                IceCream iceCream = null;
-                Topping topping = null;
-                Flavour flavour = null;
-                string option = values[4];
-                int scoops = Convert.ToInt32(values[5]);
-                if (option == "Cup")
-                {
-                    for (int i = 1; 1 <= scoops; i++)
+                    bool premium = false;
+                    if (values[7 + i].ToUpper() == "DURIAN" || values[7 + i].ToUpper() == "UBE" || values[7 + i].ToUpper() == "SEA SALT")
                     {
-                        bool premium = false;
-                        if (values[7 + i].ToUpper() == "DURIAN" || values[8].ToUpper() == "UBE" || values[8].ToUpper() == "SEA SALT")
-                        {
-                            premium = true;
-                            flavour = new Flavour(values[7 + i], premium, 1);
-                            flavours.Add(flavour);
-                        }
-                        else
-                        {
-                            premium = false;
-                            flavour = new Flavour(values[7 + i], premium, 1);
-                            flavours.Add(flavour);
-                        }
-                    }
-                    foreach (string value in values)
-                    {
-                        if (value.ToUpper() == "SPRINKLES" || value.ToUpper() == "MOCHI" || value.ToUpper() == "SAGO" || value.ToUpper() == "OREOS")
-                        {
-                            topping = new Topping(value);
-                            toppings.Add(topping);
-                        }
-                    }
-                    iceCream = new Cup(option, scoops, flavours, toppings);
-                }
-                //If order serving option is a Cone 
-                else if (option == "Cone")
-                {
-                    bool isdipped = false;
-                    for (int i = 1; 1 <= scoops; i++)
-                    {
-                        bool premium = false;
-                        if (values[7 + i].ToUpper() == "DURIAN" || values[8].ToUpper() == "UBE" || values[8].ToUpper() == "SEA SALT")
-                        {
-                            premium = true;
-                            flavour = new Flavour(values[7 + i], premium, 1);
-                            flavours.Add(flavour);
-                        }
-                        else
-                        {
-                            premium = false;
-                            flavour = new Flavour(values[7 + i], premium, 1);
-                            flavours.Add(flavour);
-                        }
-                    }
-                    foreach (string value in values)
-                    {
-                        if (value.ToUpper() == "SPRINKLES" || value.ToUpper() == "MOCHI" || value.ToUpper() == "SAGO" || value.ToUpper() == "OREOS")
-                        {
-                            topping = new Topping(value);
-                            toppings.Add(topping);
-                        }
-                    }
-                    if (values[6] == "TRUE")
-                    {
-                        isdipped = true;
+                        premium = true;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
                     }
                     else
                     {
-                        isdipped = false;
+                        premium = false;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
                     }
-                    iceCream = new Cone(option, scoops, flavours, toppings, isdipped);
                 }
-                else
+                foreach (string value in values)
                 {
-                    string waffleflav = "";
-                    for (int i = 1; 1 <= scoops; i++)
+                    if (value.ToUpper() == "SPRINKLES" || value.ToUpper() == "MOCHI" || value.ToUpper() == "SAGO" || value.ToUpper() == "OREOS")
                     {
-                        bool premium = false;
-                        if (values[7 + i].ToUpper() == "DURIAN" || values[8].ToUpper() == "UBE" || values[8].ToUpper() == "SEA SALT")
-                        {
-                            premium = true;
-                            flavour = new Flavour(values[7 + i], premium, 1);
-                            flavours.Add(flavour);
-                        }
-                        else
-                        {
-                            premium = false;
-                            flavour = new Flavour(values[7 + i], premium, 1);
-                            flavours.Add(flavour);
-                        }
+                        topping = new Topping(value);
+                        toppings.Add(topping);
                     }
-                    foreach (string value in values)
+                }
+                iceCream = new Cup(option, scoops, flavours, toppings);
+            }
+            //If order serving option is a Cone 
+            else if (option == "Cone")
+            {
+                bool isdipped = false;
+                for (int i = 1; i < scoops; i++)
+                {
+                    bool premium = false;
+                    if (values[7 + i].ToUpper() == "DURIAN" || values[7 + i].ToUpper() == "UBE" || values[7 + i].ToUpper() == "SEA SALT")
                     {
-                        if (value.ToUpper() == "SPRINKLES" || value.ToUpper() == "MOCHI" || value.ToUpper() == "SAGO" || value.ToUpper() == "OREOS")
-                        {
-                            topping = new Topping(value);
-                            toppings.Add(topping);
-                        }
-                    }
-                    if (values[7].ToUpper() == "RED VELVET" || values[7].ToUpper() == "CHARCOAL" || values[7].ToUpper() == "PANDAN WAFFLE" || values[7].ToUpper() == "ORIGINAL")
-                    {
-                        waffleflav = values[7];
+                        premium = true;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
                     }
                     else
                     {
-                        waffleflav = "Original";
+                        premium = false;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
                     }
-                    iceCream = new Waffle(option, scoops, flavours, toppings, waffleflav);
                 }
-                foreach (Customer customer in customerList)
+                foreach (string value in values)
                 {
-                    if (customer.MemberId == memberId)
+                    if (value.ToUpper() == "SPRINKLES" || value.ToUpper() == "MOCHI" || value.ToUpper() == "SAGO" || value.ToUpper() == "OREOS")
                     {
-                        if (customer.Rewards.Tier == "Gold")
+                        topping = new Topping(value);
+                        toppings.Add(topping);
+                    }
+                }
+                if (values[6] == "TRUE")
+                {
+                    isdipped = true;
+                }
+                else
+                {
+                    isdipped = false;
+                }
+                iceCream = new Cone(option, scoops, flavours, toppings, isdipped);
+            }
+            else
+            {
+                string waffleflav = "";
+                for (int i = 1; i < scoops; i++)
+                {
+                    bool premium = false;
+                    if (values[7 + i].ToUpper() == "DURIAN" || values[7 + i].ToUpper() == "UBE" || values[7 + i].ToUpper() == "SEA SALT")
+                    {
+                        premium = true;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
+                    }
+                    else
+                    {
+                        premium = false;
+                        flavour = new Flavour(values[7 + i], premium, 1);
+                        flavours.Add(flavour);
+                    }
+                }
+                foreach (string value in values)
+                {
+                    if (value.ToUpper() == "SPRINKLES" || value.ToUpper() == "MOCHI" || value.ToUpper() == "SAGO" || value.ToUpper() == "OREOS")
+                    {
+                        topping = new Topping(value);
+                        toppings.Add(topping);
+                    }
+                }
+                if (values[7].ToUpper() == "RED VELVET" || values[7].ToUpper() == "CHARCOAL" || values[7].ToUpper() == "PANDAN WAFFLE" || values[7].ToUpper() == "ORIGINAL")
+                {
+                    waffleflav = values[7];
+                }
+                else
+                {
+                    waffleflav = "Original";
+                }
+                iceCream = new Waffle(option, scoops, flavours, toppings, waffleflav);
+            }
+            foreach (Customer customer in customerList)
+            {
+                if (customer.MemberId == memberId)
+                {
+                    if (customer.Rewards.Tier == "Gold")
+                    {
+                        // Check if order with the same id already exists
+                        if (idexists == true)
                         {
-                            // Check if order with the same id already exists
-                            if (idexists == true)
+                            foreach (Order ord in customer.OrderHistory)
                             {
-                                foreach (Order ord in customer.OrderHistory)
+                                if (ord.TimeReceived == timeReceived)
                                 {
-                                    if (ord.TimeReceived == timeReceived)
-                                    {
-                                        ord.IceCreamList.Add(iceCream);
-                                    }
+                                    ord.IceCreamList.Add(iceCream);
                                 }
-                            }
-                            else
-                            {
-                                Order newOrder = new Order(id, timeReceived);
-                                newOrder.TimeFulfilled = timeFulfilled;
-                                newOrder.IceCreamList.Add(iceCream);
-                                GoldOrders.Enqueue(newOrder);
-                                customer.OrderHistory.Add(newOrder);
                             }
                         }
                         else
                         {
-                            // Check if order with the same id already exists
-                            if (idexists == true)
-                            {
-                                //Finds the order which is supposed to have ice creams with the same id
-                                foreach (Order ord in customer.OrderHistory)
-                                {
-                                    if (ord.TimeReceived == timeReceived)
-                                    {
-                                        ord.IceCreamList.Add(iceCream);
-                                    }
-                                }
-                            }
                             Order newOrder = new Order(id, timeReceived);
                             newOrder.TimeFulfilled = timeFulfilled;
                             newOrder.IceCreamList.Add(iceCream);
-                            NormalOrders.Enqueue(newOrder);
+                            GoldOrders.Enqueue(newOrder);
                             customer.OrderHistory.Add(newOrder);
                         }
                     }
+                    else
+                    {
+                        // Check if order with the same id already exists
+                        if (idexists == true)
+                        {
+                            //Finds the order which is supposed to have ice creams with the same id
+                            foreach (Order ord in customer.OrderHistory)
+                            {
+                                if (ord.TimeReceived == timeReceived)
+                                {
+                                    ord.IceCreamList.Add(iceCream);
+                                }
+                            }
+                        }
+                        Order newOrder = new Order(id, timeReceived);
+                        newOrder.TimeFulfilled = timeFulfilled;
+                        newOrder.IceCreamList.Add(iceCream);
+                        NormalOrders.Enqueue(newOrder);
+                        customer.OrderHistory.Add(newOrder);
+                    }
                 }
-
             }
+
         }
-    }
-    //Input Validation to catch and handle errors that are outputted by invalid inputs
-    //To check if the wrong format is entered into the input statement
-    catch (FormatException)
-    {
-        Console.WriteLine("Please enter a integer number");
-    }
-    //To check if the user did not give any input and provided a null input
-    catch (ArgumentNullException)
-    {
-        Console.WriteLine("Please enter a valid value that isn't null");
-    }
-    //Any other potentially unforseen input appears
-    catch (Exception)
-    {
-        Console.WriteLine("Please enter a valid value from the options given.");
     }
 }
 
@@ -1088,14 +1070,14 @@ void DisplayChargedAmts()
 
 while (true)
 {
-    try
+    // Display the main menu to show options.
+    int userOption = DisplayOutput();
+
+    if (userOption > 0 && userOption <= 7)
     {
         // Initialise "customerList" for later use by program.
         InitialiseCustomerList(customerList);
         InitialiseOrderlist(GoldOrders, NormalOrders);
-        // Display the main menu to show options.
-        int userOption = DisplayOutput();
-
         // Checks if integer '1' is entered. 
         if (userOption == 1)
         {
@@ -1138,21 +1120,23 @@ while (true)
                 DisplayChargedAmts();
             }
         }
-        // Checks if integer '0' is entered.
-        else if (userOption == 0)
-        {
-            // If it is, it exits the loop, and program will stop.
-            break;
-        }
-        else
-        {
-            //Tells the user that they have entered an invalid option number
-            Console.WriteLine("Please enter a valid option number.");
-        }
     }
+    // Checks if integer '0' is entered.
+    else if (userOption == 0)
+    {
+        // If it is, it exits the loop, and program will stop.
+        Console.WriteLine("Program ended.");
+    }
+    else
+    {
+        Console.WriteLine("No valid option selected");
+        continue;
+    }
+}
+/*
     catch (FormatException)
     {
-        Console.WriteLine("Please enter a integer number");
+        Console.WriteLine("Please enter a integer option number");
     }
     //To check if the user did not give any input and provided a null input
     catch (ArgumentNullException)
@@ -1162,6 +1146,6 @@ while (true)
     //Any other potentially unforseen input appears
     catch (Exception)
     {
-        Console.WriteLine("Please enter a valid integer value.");
+        Console.WriteLine("Please enter a valid integer option value.");
     }
-}
+*/

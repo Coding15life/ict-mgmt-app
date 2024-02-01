@@ -27,6 +27,7 @@ namespace S10241539_PRG2Assignment
 
         public Customer() 
         {
+            Rewards = new PointCard();
             OrderHistory = new List<Order>();
         }
         public Customer(string n, int m, DateTime d)

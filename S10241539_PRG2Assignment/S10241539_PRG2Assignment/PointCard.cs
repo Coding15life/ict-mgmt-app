@@ -30,9 +30,21 @@ namespace S10241539_PRG2Assignment
         {
             Points = points;
             PunchCard = punchCard;
+            if (Points >= 50)
+            {
+                Tier = "Silver";
+            }
+            else if (Points >= 100)
+            {
+                Tier = "Gold";
+            }
+            else
+            {
+                Tier = "Ordinary";
+            }
         }
 
-        //Creating a method AddPoints that adds points gained by a customer to their total amount of points
+//Creating a method AddPoints that adds points gained by a customer to their total amount of points
         public void AddPoints(int p)
         {
             double earned_points = p * 0.72;
@@ -45,7 +57,7 @@ namespace S10241539_PRG2Assignment
             //To check if the customer has already reached silver before and if so to determine if they have enough total points to get to a new tier
             else if (tier == "Silver")
             {
-                if (points >= 100)
+                if (Points >= 100)
                 {
                     Tier = "Gold";
                 }
@@ -57,11 +69,11 @@ namespace S10241539_PRG2Assignment
             //To determine the tier of the customer based on their points
             else
             {
-                if (points >= 50)
+                if (Points >= 50)
                 {
                     Tier = "Silver";
                 }
-                else if (points >= 100)
+                else if (Points >= 100)
                 {
                     Tier = "Gold";
                 }
