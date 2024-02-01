@@ -26,7 +26,7 @@ namespace S10241539_PRG2Assignment
 
         //Constructor
         public PointCard() { }
-        public PointCard(int points,  int punchCard)
+        public PointCard(int points, int punchCard)
         {
             Points = points;
             PunchCard = punchCard;
@@ -44,7 +44,7 @@ namespace S10241539_PRG2Assignment
             }
         }
 
-//Creating a method AddPoints that adds points gained by a customer to their total amount of points
+        //Creating a method AddPoints that adds points gained by a customer to their total amount of points
         public void AddPoints(int p)
         {
             double earned_points = p * 0.72;
@@ -65,7 +65,7 @@ namespace S10241539_PRG2Assignment
                 {
                     tier = "Silver";
                 }
-            } 
+            }
             //To determine the tier of the customer based on their points
             else
             {
@@ -83,7 +83,7 @@ namespace S10241539_PRG2Assignment
                 }
             }
 
-            
+
         }
 
         //Creating a method RedeemPoints that allows the customer to Redeem their total points

@@ -4,12 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//==========================================================
-// Student Number : S10241539
-// Student Name : Javier Lim
-// Partner Name : Keshav P Chidambaram
-//==========================================================
-
 namespace S10241539_PRG2Assignment
 {
     internal class Order
@@ -26,7 +20,7 @@ namespace S10241539_PRG2Assignment
         public List<IceCream> IceCreamList = new List<IceCream>();
 
         //constructors
-        public Order() 
+        public Order()
         {
             IceCreamList = new List<IceCream>();
         }
@@ -34,7 +28,7 @@ namespace S10241539_PRG2Assignment
         {
             Id = id;
             TimeReceived = timeReceived;
-            
+
         }
 
         //Creating a method that allows the customer to edit every aspect of their order 
@@ -322,15 +316,17 @@ namespace S10241539_PRG2Assignment
             try
             {
                 IceCreamList.RemoveAt(id);
-            } catch (ArgumentOutOfRangeException)
+            }
+            catch (ArgumentOutOfRangeException)
             {
                 Console.WriteLine("Please enter a valid Id.");
-            } catch (Exception) 
+            }
+            catch (Exception)
             {
                 Console.WriteLine("Please enter a valid input that is also an existing Id.");
             }
         }
-         public double CalculateTotal()
+        public double CalculateTotal()
         {
             double total = 0;
             foreach (IceCream ice in IceCreamList)
@@ -342,11 +338,18 @@ namespace S10241539_PRG2Assignment
         public override string ToString()
         {
             string l = "";
-            l += ($"Id: {Id} Time Recieved: {TimeReceived} Time Fulfilled: {TimeFulfilled}\n");
+            if (TimeFulfilled != null)
+            {
+                l += ($"Id: {Id} Time Recieved: {TimeReceived} Time Fulfilled: {TimeFulfilled}\n");
+            }
+            else
+            {
+                l += ($"Id: {Id} Time Recieved: {TimeReceived}\n");
+            }
             int num = 1;
             foreach (IceCream I in IceCreamList)
             {
-                l += $"[{num}] "+ I + "Price: "+ I.CalculatePrice() + "\n";
+                l += $"[{num}] " + I + "Price: " + I.CalculatePrice() + "\n";
                 num++;
             }
             return l;

@@ -4,12 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//==========================================================
-// Student Number : S10241539
-// Student Name : Javier Lim
-// Partner Name : Keshav P Chidambaram
-//==========================================================
-
 namespace S10241539_PRG2Assignment
 {
     public abstract class IceCream
@@ -24,7 +18,7 @@ namespace S10241539_PRG2Assignment
 
         public IceCream() { }
 
-        public IceCream(string servingOptions, int numOfScoops, List<Flavour> iceCreamFlavours, List<Topping> iceCreamToppings) 
+        public IceCream(string servingOptions, int numOfScoops, List<Flavour> iceCreamFlavours, List<Topping> iceCreamToppings)
         {
             Option = servingOptions;
             Scoops = numOfScoops;
@@ -36,7 +30,17 @@ namespace S10241539_PRG2Assignment
 
         public override string ToString()
         {
-            return $"Serving options: {Option}\tScoops: {Scoops}\tFlavours: {Flavours}\tToppings: {Toppings}";
+            string flavourline = string.Empty;
+            foreach (Flavour flavour in Flavours)
+            {
+                flavourline += flavour;
+            }
+            string toppingline = string.Empty;
+            foreach (Topping topping in Toppings)
+            {
+                toppingline += topping;
+            }
+            return $"Serving options: {Option}\nScoops: {Scoops}\nFlavours: {flavourline}\nToppings: {toppingline}";
         }
     }
 }

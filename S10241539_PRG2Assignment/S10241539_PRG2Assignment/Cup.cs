@@ -18,7 +18,7 @@ namespace S10241539_PRG2Assignment
         //Constructor
         public Cup() { }
         public Cup(string option, int scoops, List<Flavour> flavours, List<Topping> toppings) : base(option, scoops, flavours, toppings) { }
-        
+
         //Since Cup is a subclass of IceCream.cs, override needs to be used to call CalculatePrice()
         public override double CalculatePrice()
         {
@@ -84,3 +84,4 @@ namespace S10241539_PRG2Assignment
         }
     }
 }
+

@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\javie\\.nuget\\packages\\": {}
+    "C:\\Users\\kesha\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\javie\\Documents\\ICT Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
+      "projectUniqueName": "C:\\S2 School Files\\PRG2\\Assignment Final\\Assignment Repo 2\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
       "projectName": "S10241539_PRG2Assignment",
-      "projectPath": "C:\\Users\\javie\\Documents\\ICT Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
-      "packagesPath": "C:\\Users\\javie\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\javie\\Documents\\ICT Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\obj\\",
+      "projectPath": "C:\\S2 School Files\\PRG2\\Assignment Final\\Assignment Repo 2\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment.csproj",
+      "packagesPath": "C:\\Users\\kesha\\.nuget\\packages\\",
+      "outputPath": "C:\\S2 School Files\\PRG2\\Assignment Final\\Assignment Repo 2\\S10241539_PRG2Assignment\\S10241539_PRG2Assignment\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\javie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\kesha\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
