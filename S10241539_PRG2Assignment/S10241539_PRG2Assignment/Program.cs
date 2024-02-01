@@ -721,6 +721,7 @@ void DisplayOrderDetails()
 //Feature 6: manages customer orders, allowing selection, modification, addition, or deletion of ice cream objects, and displaying the updated order.
 void ModifyOrderDetails()
 {
+    //displays all customers 
     DisplayCustomerInformation();
 
     while (true)
@@ -728,6 +729,7 @@ void ModifyOrderDetails()
         int search = 0;
         try
         {
+            //ask user
             Console.Write("Select a Customer (Enter Id of desired Customer): ");
             search = Convert.ToInt32(Console.ReadLine());
         }
@@ -757,6 +759,7 @@ void ModifyOrderDetails()
         }
         else
         {
+            Order latestOrder = new Order();
             foreach (Customer customer in customerList)
             {
                 if (search == customer.MemberId)
@@ -768,7 +771,7 @@ void ModifyOrderDetails()
                     }
                     else
                     {
-                        Order latestOrder = customer.OrderHistory.LastOrDefault();
+                        latestOrder = customer.OrderHistory.LastOrDefault();
 
                         Console.WriteLine("\nLatest Order Summary: \n" + latestOrder + "\n");
 
@@ -813,11 +816,10 @@ void ModifyOrderDetails()
                         }
                     }
                 }
-                else
-                {
-                    Console.WriteLine("A member with this member Id does not exist.");
-                    break;
-                }
+            }
+            if (latestOrder == null)
+            {
+                Console.WriteLine("This Id was not found. Please choose your desired Customer and re-enter a member Id from the list of customers.");
             }
         }
     }
