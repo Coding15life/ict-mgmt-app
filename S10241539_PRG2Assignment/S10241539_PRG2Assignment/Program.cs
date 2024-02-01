@@ -636,21 +636,26 @@ void DisplayOrderDetails()
     {
         //displays customer information
         DisplayCustomerInformation();
-        Console.Write("Which Customer's order history would you like to access (Enter Member Id) : ");
+        Console.Write("Which Customer's order history would you like to access (Enter Member Id): ");
         //get user input for which user they want to access
         int DispOrder = Convert.ToInt32(Console.ReadLine());
         // Search customerList for selected Customer
-        for (int i = 0; i < customerList.Count; i++)
+        foreach (Customer customer in customerList)
         {
-            if (customerList[i].MemberId == DispOrder) 
+            Console.WriteLine(customer.MemberId);
+            if (customer.MemberId == DispOrder)
             {
-                //Prints out details of every order in the selected customer's OrderHistory
-                foreach(Order ord in customerList[i].OrderHistory)
+                if (customer.OrderHistory.Count > 0)
                 {
-                    Console.WriteLine(ord);
+                    //Prints out details of every order in the selected customer's OrderHistory
+                    foreach (Order ord in customer.OrderHistory)
+                    {
+                        Console.WriteLine(ord);
+                    }
                 }
+                else
+                { Console.WriteLine("This customer has no orders!"); }
             }
-            else { Console.WriteLine("A customer with this member Id does not exist."); }
         }
     }
     //Input Validation to catch and handle errors that are outputted by invalid inputs
@@ -693,6 +698,7 @@ void ModifyOrderDetails()
                     if (customer.OrderHistory.Count == 0)
                     {
                         Console.WriteLine("This customer hasn't made any orders yet! Maybe you should convince them to order at our Ice Cream Shop! :)\n");
+                        break;
                     }
                     else
                     {
@@ -715,7 +721,7 @@ void ModifyOrderDetails()
                         {
                             //initializes a list called ice creams that stores all 
                             List<IceCream> iceCreams = latestord.IceCreamList;
-                            
+
                             //Prints out every icecream in the latest order
                             for (int i = 0; i < iceCreams.Count; i++)
                             {
@@ -728,7 +734,7 @@ void ModifyOrderDetails()
                             latestord.ModifyIceCream(modice - 1); // minussing one here to offset C#'s counting from 0
                             Console.WriteLine("Order Summary: \n" + latestord + "\n");
                             break;
-                        } 
+                        }
                         else if (option == 2)
                         {
                             //Checking the user input get a new value 
@@ -1079,9 +1085,10 @@ void DisplayChargedAmts()
 // Main Program
 // Other features yet to be implemented.
 // While loop to invoke user input infinitely.
-try
+
+while (true)
 {
-    while (true)
+    try
     {
         // Initialise "customerList" for later use by program.
         InitialiseCustomerList(customerList);
@@ -1106,7 +1113,7 @@ try
         }
         else if (userOption == 4)
         {
-
+            CreateCustomerOrder();
         }
         else if (userOption == 5)
         {
@@ -1118,7 +1125,7 @@ try
             //If it is, it will invoke ModifyOrderDetails function and asks the user the id of the customer and get the order which will then modify the order based on the user's requiremets
             ModifyOrderDetails();
         }
-        else if(userOption == 7)
+        else if (userOption == 7)
         {
             //If it is, it will invoke DisplayAdvancedMenu function and asks the user which advanced option they want to execute
             int option = AdvancedMenu();
@@ -1143,18 +1150,18 @@ try
             Console.WriteLine("Please enter a valid option number.");
         }
     }
-}
-catch (FormatException)
-{
-    Console.WriteLine("Please enter a integer number");
-}
-//To check if the user did not give any input and provided a null input
-catch (ArgumentNullException)
-{
-    Console.WriteLine("Please enter a valid value that isn't null");
-}
-//Any other potentially unforseen input appears
-catch (Exception)
-{
-    Console.WriteLine("Please enter a valid integer value.");
+    catch (FormatException)
+    {
+        Console.WriteLine("Please enter a integer number");
+    }
+    //To check if the user did not give any input and provided a null input
+    catch (ArgumentNullException)
+    {
+        Console.WriteLine("Please enter a valid value that isn't null");
+    }
+    //Any other potentially unforseen input appears
+    catch (Exception)
+    {
+        Console.WriteLine("Please enter a valid integer value.");
+    }
 }
